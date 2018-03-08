@@ -15,11 +15,11 @@ namespace GenericWebservice.Domain
 
     public class EventStore : IEventStore
     {
-        private readonly DbContextOptions<EventStoreContext> _options;
+        private readonly EventStoreContext _context;
 
-        public EventStore(DbContextOptions<EventStoreContext> options)
+        public EventStore(EventStoreContext context)
         {
-            _options = options;
+            _context = context;
             DomainHooks = new List<IDomainHook> {new CreateUserEventHook()};
         }
 
@@ -38,12 +38,9 @@ namespace GenericWebservice.Domain
                 }
             }
 
-            using (var context = new EventStoreContext(_options))
-            {
-                context.EventHistory.AddRange(domainEvents);
-                await context.SaveChangesAsync();
-                return HookResult.OkResult();
-            }
+            _context.EventHistory.AddRange(domainEvents);
+            await _context.SaveChangesAsync();
+            return HookResult.OkResult();
         }
     }
 

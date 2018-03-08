@@ -7,9 +7,9 @@ namespace GeneratedWebService.Controllers
     [Route("api/[controller]")]
     public class UserController : Controller
     {
-        private readonly UserCommandHandler _commandHandler;
+        private readonly IUserCommandHandler _commandHandler;
 
-        protected UserController(UserCommandHandler commandHandler)
+        protected UserController(IUserCommandHandler commandHandler)
         {
             _commandHandler = commandHandler;
         }

@@ -2,42 +2,33 @@
 using System.Threading.Tasks;
 using Domain.Users;
 using GenericWebservice.Domain;
-using Microsoft.EntityFrameworkCore;
 
 namespace GeneratedWebService.Controllers
 {
     public class UserRepository : IUserRepository
     {
-        private readonly DbContextOptions<EventStoreContext> _options;
+        private readonly EventStoreContext _eventStore;
 
-        public UserRepository(DbContextOptions<EventStoreContext> options)
+        public UserRepository(EventStoreContext eventStore)
         {
-            _options = options;
+            _eventStore = eventStore;
         }
+
         public async Task<User> GetUser(Guid id)
         {
-            using (var aggregateStore = new EventStoreContext(_options))
-            {
-                return await aggregateStore.Users.FindAsync(id);
-            }
+            return await _eventStore.Users.FindAsync(id);
         }
 
         public async Task UpdateUser(User user)
         {
-            using (var aggregateStore = new EventStoreContext(_options))
-            {
-                aggregateStore.Users.Update(user);
-                await aggregateStore.SaveChangesAsync();
-            }
+            _eventStore.Users.Update(user);
+            await _eventStore.SaveChangesAsync();
         }
 
         public async Task CreateUser(User user)
         {
-            using (var aggregateStore = new EventStoreContext(_options))
-            {
-                aggregateStore.Users.Add(user);
-                await aggregateStore.SaveChangesAsync();
-            }
+            _eventStore.Users.Add(user);
+            await _eventStore.SaveChangesAsync();
         }
     }
 
