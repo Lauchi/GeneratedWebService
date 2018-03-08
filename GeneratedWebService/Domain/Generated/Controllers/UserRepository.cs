@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Domain.Users;
 using GenericWebservice.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace GeneratedWebService.Controllers
 {
@@ -30,12 +32,18 @@ namespace GeneratedWebService.Controllers
             _eventStore.Users.Add(user);
             await _eventStore.SaveChangesAsync();
         }
+
+        public async Task<IList<User>> GetUsers()
+        {
+            return await _eventStore.Users.ToListAsync();
+        }
     }
 
     public interface IUserRepository
-    {
+        {
         Task<User> GetUser(Guid id);
         Task UpdateUser(User parsedUser);
         Task CreateUser(User userEventUser);
+        Task<IList<User>> GetUsers();
     }
 }

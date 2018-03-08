@@ -29,7 +29,7 @@ namespace GenericWebservice.Domain
         {
             foreach (var domainEvent in domainEvents)
             {
-                var domainHooks = DomainHooks.Where(hook => hook.Event.GetType() == domainEvent.GetType());
+                var domainHooks = DomainHooks.Where(hook => hook.EventType == domainEvent.GetType());
                 foreach (var domainHook in domainHooks)
                 {
                     var validationResult = domainHook.Execute(domainEvent);
@@ -46,17 +46,21 @@ namespace GenericWebservice.Domain
 
     public interface IDomainHook
     {
-        DomainEventBase Event { get; }
+        Type EventType { get; }
         HookResult Execute(DomainEventBase domainEvent);
     }
 
     public partial class CreateUserEventHook : IDomainHook
     {
-        public DomainEventBase Event { get; }
+        public Type EventType { get; }
     }
 
     public partial class CreateUserEventHook
     {
+        public CreateUserEventHook()
+        {
+            EventType = typeof(CreateUserEvent);
+        }
         public HookResult Execute(DomainEventBase domainEvent)
         {
             if (domainEvent is CreateUserEvent parsedEvent)
@@ -89,6 +93,6 @@ namespace GenericWebservice.Domain
 
         public List<string> Errors { get; }
 
-        public bool Ok => Errors.Count > 0;
+        public bool Ok => Errors.Count == 0;
     }
 }

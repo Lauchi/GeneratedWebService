@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GeneratedWebService.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/users")]
     public class UserController : Controller
     {
         private readonly IUserCommandHandler _commandHandler;
 
-        protected UserController(IUserCommandHandler commandHandler)
+        public UserController(IUserCommandHandler commandHandler)
         {
             _commandHandler = commandHandler;
         }
@@ -20,10 +20,10 @@ namespace GeneratedWebService.Controllers
             return await _commandHandler.GetUser(id);
         }
 
-        [HttpGet]
+        [HttpGet()]
         public async Task<IActionResult> Get()
         {
-            return Ok("2jkdfad");
+            return await _commandHandler.GetUsers();
         }
 
         [HttpPost]

@@ -9,5 +9,6 @@ namespace GeneratedWebService.Controllers
         Task<IActionResult> CreateUser(CreateUserCommand createUserCommand);
         Task<IActionResult> UpdateUserName(UpdateUserNameCommand updateUserNameCommand);
         Task<IActionResult> GetUser(Guid id);
+        Task<IActionResult> GetUsers();
     }
 }

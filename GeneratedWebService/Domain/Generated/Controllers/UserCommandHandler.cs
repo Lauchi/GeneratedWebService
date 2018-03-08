@@ -66,5 +66,11 @@ namespace GeneratedWebService.Controllers
 
             return new NotFoundResult();
         }
+
+        public async Task<IActionResult> GetUsers()
+        {
+            var users = await _userRepository.GetUsers();
+            return new OkObjectResult(users);
+        }
     }
 }

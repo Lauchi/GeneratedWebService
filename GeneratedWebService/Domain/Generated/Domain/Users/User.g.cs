@@ -37,6 +37,7 @@ namespace Domain.Users
 
         private User(Guid Id, String Name, Int32 Age)
         {
+            this.Id = Id;
             this.Name = Name;
             this.Age = Age;
         }
