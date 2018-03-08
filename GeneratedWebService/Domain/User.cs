@@ -7,12 +7,14 @@ namespace Domain.Users
     {
         public ValidationResult UpdateAge(int Age)
         {
-            throw new NotImplementedException();
+            this.Age = Age;
+            return ValidationResult.OkResult(new List<DomainEventBase>{new UserUpdateAgeEvent(this.Age, this.Id)});
         }
 
         public ValidationResult UpdateName(string Name)
         {
-            throw new NotImplementedException();
+            this.Name = Name;
+            return ValidationResult.OkResult(new List<DomainEventBase> { new UserUpdateNameEvent(this.Name, this.Id) });
         }
 
         public static CreationResult<User> Create(string name, int age)

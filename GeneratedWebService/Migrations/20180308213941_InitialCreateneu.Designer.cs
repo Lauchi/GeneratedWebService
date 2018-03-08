@@ -12,9 +12,10 @@ using System;
 namespace GeneratedWebService.Migrations
 {
     [DbContext(typeof(EventStoreContext))]
-    partial class EventStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20180308213941_InitialCreateneu")]
+    partial class InitialCreateneu
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

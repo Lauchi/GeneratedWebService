@@ -12,7 +12,7 @@ using System;
 namespace GeneratedWebService.Migrations
 {
     [DbContext(typeof(EventStoreContext))]
-    [Migration("20180308201816_InitialCreate")]
+    [Migration("20180308213502_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -92,6 +92,7 @@ namespace GeneratedWebService.Migrations
                 {
                     b.HasBaseType("Domain.DomainEventBase");
 
+                    b.Property<int>("Age");
 
                     b.ToTable("UserUpdateAgeEvent");
 

@@ -35,9 +35,9 @@ namespace GeneratedWebService.Controllers
             return new BadRequestObjectResult(createUserResult.DomainErrors);
         }
 
-        public async Task<IActionResult> UpdateUserName(UpdateUserNameCommand updateUserNameCommand)
+        public async Task<IActionResult> UpdateUserName(Guid id, UpdateUserNameCommand updateUserNameCommand)
         {
-            var user = await _userRepository.GetUser(updateUserNameCommand.Id);
+            var user = await _userRepository.GetUser(id);
             if (user != null)
             {
                 var validationResult = user.UpdateName(updateUserNameCommand.Name);

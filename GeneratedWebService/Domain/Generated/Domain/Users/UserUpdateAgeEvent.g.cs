@@ -15,21 +15,13 @@ namespace Domain.Users
     
     public class UserUpdateAgeEvent : DomainEventBase
     {
-        
-        private Int32 _Age;
+        public Int32 Age { get; private set; }
         
         public UserUpdateAgeEvent(Int32 Age, Guid EntityId) : 
                 base(EntityId)
         {
-            this._Age = Age;
+            this.Age = Age;
         }
         
-        public Int32 Age
-        {
-            get
-            {
-                return this._Age;
-            }
-        }
     }
 }

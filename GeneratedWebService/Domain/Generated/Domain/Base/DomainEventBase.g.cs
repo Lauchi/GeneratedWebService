@@ -22,6 +22,7 @@ namespace Domain
         
         public DomainEventBase(Guid EntityId)
         {
+            Id = Guid.NewGuid();
             this._EntityId = EntityId;
         }
         

@@ -13,7 +13,8 @@ namespace GeneratedWebService.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    Discriminator = table.Column<string>(nullable: false)
+                    Discriminator = table.Column<string>(nullable: false),
+                    Age = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {

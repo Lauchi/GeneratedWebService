@@ -33,10 +33,9 @@ namespace GeneratedWebService.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUserName(Guid id, [FromBody] string name)
+        public async Task<IActionResult> UpdateUserName(Guid id, [FromBody] UpdateUserNameCommand updateUserNameCommand)
         {
-            var updateUserNameCommand = new UpdateUserNameCommand(id, name);
-            return await _commandHandler.UpdateUserName(updateUserNameCommand);
+            return await _commandHandler.UpdateUserName(id, updateUserNameCommand);
         }
     }
 }
