@@ -19,12 +19,16 @@ namespace Domain.Posts
     
     public partial class Post : IPost
     {
+        
+        public Guid Id { get; private set; }
+        
         public String Title { get; private set; }
-
+        
         public String Body { get; private set; }
-
+        
         private Post(Guid Id, String Title, String Body)
         {
+            this.Id = Id;
             this.Title = Title;
             this.Body = Body;
         }
@@ -32,7 +36,5 @@ namespace Domain.Posts
         private Post()
         {
         }
-
-        public Guid Id { get; private set; }
     }
 }

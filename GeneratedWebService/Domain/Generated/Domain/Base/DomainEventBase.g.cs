@@ -16,22 +16,15 @@ namespace Domain
     
     public class DomainEventBase
     {
+        
         public Guid Id { get; private set; }
-
-        private Guid _EntityId;
+        
+        public Guid EntityId { get; private set; }
         
         public DomainEventBase(Guid EntityId)
         {
-            Id = Guid.NewGuid();
-            this._EntityId = EntityId;
-        }
-        
-        public Guid EntityId
-        {
-            get
-            {
-                return this._EntityId;
-            }
+            this.EntityId = EntityId;
+            this.Id = Guid.NewGuid();
         }
     }
 }

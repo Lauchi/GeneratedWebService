@@ -15,6 +15,7 @@ namespace Domain.Users
     
     public class UserUpdateAgeEvent : DomainEventBase
     {
+        
         public Int32 Age { get; private set; }
         
         public UserUpdateAgeEvent(Int32 Age, Guid EntityId) : 
@@ -22,6 +23,5 @@ namespace Domain.Users
         {
             this.Age = Age;
         }
-        
     }
 }

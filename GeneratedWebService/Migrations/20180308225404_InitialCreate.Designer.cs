@@ -12,7 +12,7 @@ using System;
 namespace GeneratedWebService.Migrations
 {
     [DbContext(typeof(EventStoreContext))]
-    [Migration("20180308213502_InitialCreate")]
+    [Migration("20180308225404_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,6 +28,8 @@ namespace GeneratedWebService.Migrations
 
                     b.Property<string>("Discriminator")
                         .IsRequired();
+
+                    b.Property<Guid>("EntityId");
 
                     b.HasKey("Id");
 
@@ -45,11 +47,7 @@ namespace GeneratedWebService.Migrations
 
                     b.Property<string>("Title");
 
-                    b.Property<Guid?>("UserId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Posts");
                 });
@@ -103,17 +101,11 @@ namespace GeneratedWebService.Migrations
                 {
                     b.HasBaseType("Domain.DomainEventBase");
 
+                    b.Property<string>("Name");
 
                     b.ToTable("UserUpdateNameEvent");
 
                     b.HasDiscriminator().HasValue("UserUpdateNameEvent");
-                });
-
-            modelBuilder.Entity("Domain.Posts.Post", b =>
-                {
-                    b.HasOne("Domain.Users.User")
-                        .WithMany("Posts")
-                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }

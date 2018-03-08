@@ -1,4 +1,4 @@
-﻿namespace GeneratedWebService.Controllers
+namespace GeneratedWebService.Controllers
 {
     public class CreateUserCommand
     {
