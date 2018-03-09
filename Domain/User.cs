@@ -20,16 +20,15 @@ namespace Domain.Users
             return ValidationResult.ErrorResult(new List<string>{ "Name is too long"});
         }
 
-        public static CreationResult<User> Create(string name, int age)
+        public static CreationResult<User> Create(string name)
         {
-            var newGuid = Guid.NewGuid();
-            if (age > 0)
-            {
-                var user = new User(newGuid, name, age);
+            if (name.Length > 4) {
+                var newGuid = Guid.NewGuid();
+                var user = new User(newGuid, name);
                 return CreationResult<User>.OkResult(new List<DomainEventBase> {new CreateUserEvent(user, newGuid)}, user);
             }
 
-            return CreationResult<User>.ErrorResult(new List<string> {"Age Can not be negative"});
+            return CreationResult<User>.ErrorResult(new List<string> {"Name too short"});
         }
     }
 }

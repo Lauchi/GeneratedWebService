@@ -20,7 +20,7 @@ namespace Application.Users
 
         public async Task<IActionResult> CreateUser(UserCreateCommand createUserCommand)
         {
-            var createUserResult = User.Create(createUserCommand.Name, 10);
+            var createUserResult = User.Create(createUserCommand.Name);
             if (createUserResult.Ok)
             {
                 var hookResult = await _eventStore.AppendAll(createUserResult.DomainEvents);
