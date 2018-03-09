@@ -13,8 +13,11 @@ namespace Domain.Users
 
         public ValidationResult UpdateName(string Name)
         {
-            this.Name = Name;
-            return ValidationResult.OkResult(new List<DomainEventBase> { new UserUpdateNameEvent(this.Name, this.Id) });
+            if (Name.Length < 20) { 
+                this.Name = Name;
+                return ValidationResult.OkResult(new List<DomainEventBase> { new UserUpdateNameEvent(this.Name, this.Id) });
+            }
+            return ValidationResult.ErrorResult(new List<string>{ "Name is too long"});
         }
 
         public static CreationResult<User> Create(string name, int age)

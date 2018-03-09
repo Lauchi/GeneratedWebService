@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Domain.Users;
 using GenericWebservice.Domain;
@@ -56,7 +57,7 @@ namespace GeneratedWebService.Controllers
                 return new BadRequestObjectResult(validationResult.DomainErrors);
             }
 
-            return new NotFoundResult();
+            return new NotFoundObjectResult(new List<string> { $"Could not find User with ID: {id}"});
         }
 
         public async Task<IActionResult> GetUser(Guid id)
@@ -64,7 +65,7 @@ namespace GeneratedWebService.Controllers
             var user = await _userRepository.GetUser(id);
             if (user != null) return new JsonResult(user);
 
-            return new NotFoundResult();
+            return new NotFoundObjectResult(new List<string> { $"Could not find User with ID: {id}" });
         }
 
         public async Task<IActionResult> GetUsers()
