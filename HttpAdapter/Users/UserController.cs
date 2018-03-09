@@ -1,8 +1,11 @@
 using System;
 using System.Threading.Tasks;
+using Application.Users;
+using Application.Users.Commands;
+using GeneratedWebService.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GeneratedWebService.Controllers
+namespace HttpAdapter.Users
 {
     [Route("api/users")]
     public class UserController : Controller
@@ -20,7 +23,7 @@ namespace GeneratedWebService.Controllers
             return await _commandHandler.GetUser(id);
         }
 
-        [HttpGet()]
+        [HttpGet]
         public async Task<IActionResult> Get()
         {
             return await _commandHandler.GetUsers();

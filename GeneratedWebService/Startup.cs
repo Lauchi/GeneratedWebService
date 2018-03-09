@@ -1,10 +1,15 @@
-﻿using GeneratedWebService.Controllers;
-using GenericWebservice.Domain;
+﻿using System.Reflection;
+using System.Runtime.Loader;
+using Application;
+using Application.Users;
+using HttpAdapter.Users;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SqlAdapter;
+using SqlAdapter.Users;
 
 namespace GeneratedWebService
 {
@@ -19,12 +24,12 @@ namespace GeneratedWebService
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
-
             services.AddDbContext<EventStoreContext>(option => option.UseSqlite("Data Source=Eventstore.db"))
                 .AddTransient<IEventStore, EventStore>()
                 .AddTransient<IUserRepository, UserRepository>()
-                .AddTransient<IUserCommandHandler, UserCommandHandler>();
+                .AddTransient<IUserCommandHandler, UserCommandHandler>()
+                .AddMvc()
+                .AddApplicationPart(typeof(UserController).Assembly);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

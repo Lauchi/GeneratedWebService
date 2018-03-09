@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Application.Users.Commands;
 using Domain.Users;
-using GenericWebservice.Domain;
+using GeneratedWebService.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GeneratedWebService.Controllers
+namespace Application.Users
 {
     public class UserCommandHandler : IUserCommandHandler
     {

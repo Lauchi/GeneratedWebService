@@ -1,8 +1,10 @@
 using System;
 using System.Threading.Tasks;
+using Application.Users.Commands;
+using GeneratedWebService.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GeneratedWebService.Controllers
+namespace Application.Users
 {
     public interface IUserCommandHandler
     {
