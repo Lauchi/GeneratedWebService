@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-using System.Runtime.Loader;
-using Application;
+﻿using Application;
 using Application.Users;
 using HttpAdapter.Users;
 using Microsoft.AspNetCore.Builder;
@@ -26,6 +24,7 @@ namespace GeneratedWebService
         {
             services.AddDbContext<EventStoreContext>(option => option.UseSqlite("Data Source=Eventstore.db"))
                 .AddTransient<IEventStore, EventStore>()
+                .AddTransient<IEventStoreRepository, EventStoreRepository>()
                 .AddTransient<IUserRepository, UserRepository>()
                 .AddTransient<IUserCommandHandler, UserCommandHandler>()
                 .AddMvc()

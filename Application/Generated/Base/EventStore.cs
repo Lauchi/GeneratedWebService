@@ -5,15 +5,15 @@ using Application;
 using Application.Users.Hooks;
 using Domain;
 
-namespace SqlAdapter
+namespace Application
 {
     public class EventStore : IEventStore
     {
-        private readonly EventStoreContext _context;
+        private readonly IEventStoreRepository _eventRepository;
 
-        public EventStore(EventStoreContext context)
+        public EventStore(IEventStoreRepository eventRepository)
         {
-            _context = context;
+            _eventRepository = eventRepository;
             DomainHooks = new List<IDomainHook> {new CreateUserEventHook()};
         }
 
@@ -32,8 +32,7 @@ namespace SqlAdapter
                 }
             }
 
-            _context.EventHistory.AddRange(domainEvents);
-            await _context.SaveChangesAsync();
+            await _eventRepository.AddEvents(domainEvents);
             return HookResult.OkResult();
         }
     }
