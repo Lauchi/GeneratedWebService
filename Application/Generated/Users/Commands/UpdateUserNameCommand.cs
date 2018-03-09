@@ -1,5 +1,3 @@
-using System;
-
 namespace GeneratedWebService.Controllers
 {
     public class UpdateUserNameCommand
