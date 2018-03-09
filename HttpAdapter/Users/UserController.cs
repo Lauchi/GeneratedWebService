@@ -2,7 +2,6 @@ using System;
 using System.Threading.Tasks;
 using Application.Users;
 using Application.Users.Commands;
-using GeneratedWebService.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HttpAdapter.Users
@@ -30,13 +29,13 @@ namespace HttpAdapter.Users
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser([FromBody] CreateUserCommand createUserCommand)
+        public async Task<IActionResult> CreateUser([FromBody] UserCreateCommand createUserCommand)
         {
             return await _commandHandler.CreateUser(createUserCommand);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUserName(Guid id, [FromBody] UpdateUserNameCommand updateUserNameCommand)
+        public async Task<IActionResult> UpdateUserName(Guid id, [FromBody] UserUpdateNameCommand updateUserNameCommand)
         {
             return await _commandHandler.UpdateUserName(id, updateUserNameCommand);
         }

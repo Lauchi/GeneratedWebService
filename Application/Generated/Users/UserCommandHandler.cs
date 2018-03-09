@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Users.Commands;
 using Domain.Users;
-using GeneratedWebService.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Application.Users
@@ -19,9 +18,9 @@ namespace Application.Users
             _userRepository = userRepository;
         }
 
-        public async Task<IActionResult> CreateUser(CreateUserCommand createUserCommand)
+        public async Task<IActionResult> CreateUser(UserCreateCommand createUserCommand)
         {
-            var createUserResult = User.Create(createUserCommand.Name, createUserCommand.Age);
+            var createUserResult = User.Create(createUserCommand.Name, 10);
             if (createUserResult.Ok)
             {
                 var hookResult = await _eventStore.AppendAll(createUserResult.DomainEvents);
@@ -37,7 +36,7 @@ namespace Application.Users
             return new BadRequestObjectResult(createUserResult.DomainErrors);
         }
 
-        public async Task<IActionResult> UpdateUserName(Guid id, UpdateUserNameCommand updateUserNameCommand)
+        public async Task<IActionResult> UpdateUserName(Guid id, UserUpdateNameCommand updateUserNameCommand)
         {
             var user = await _userRepository.GetUser(id);
             if (user != null)
