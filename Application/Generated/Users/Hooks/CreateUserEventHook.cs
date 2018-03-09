@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Domain.Users;
 
 namespace Application.Users.Hooks
