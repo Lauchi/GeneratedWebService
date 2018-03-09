@@ -13,10 +13,11 @@ namespace Application
         public EventStore(IEventStoreRepository eventRepository)
         {
             _eventRepository = eventRepository;
-            DomainHooks = new List<IDomainHook> {new CreateUserEventHook()};
+            DomainHooks = new List<IDomainHook>();
+            DomainHooks.Add(new CreateUserEventHook());
         }
 
-        public IEnumerable<IDomainHook> DomainHooks { get; }
+        public IList<IDomainHook> DomainHooks { get; }
 
         public async Task<HookResult> AppendAll(List<DomainEventBase> domainEvents)
         {
