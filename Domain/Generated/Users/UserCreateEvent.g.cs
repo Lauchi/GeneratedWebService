@@ -8,20 +8,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Domain.Posts
+namespace Domain.Users
 {
     using System;
     
     
-    public class CreatePostEvent : DomainEventBase
+    public class UserCreateEvent : DomainEventBase
     {
         
-        public Post Post { get; }
+        public User User { get; private set; }
         
-        public CreatePostEvent(Post Post, Guid EntityId) : 
+        public UserCreateEvent(User User, Guid EntityId) : 
                 base(EntityId)
         {
-            this.Post = Post;
+            this.User = User;
         }
     }
 }
