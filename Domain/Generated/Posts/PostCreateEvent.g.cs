@@ -16,7 +16,7 @@ namespace Domain.Posts
     public class PostCreateEvent : DomainEventBase
     {
         
-        public Post Post { get; private set; }
+        public Post Post { get; }
         
         public PostCreateEvent(Post Post, Guid EntityId) : 
                 base(EntityId)

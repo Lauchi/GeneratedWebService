@@ -16,7 +16,7 @@ namespace Domain.Users
     public class UserCreateEvent : DomainEventBase
     {
         
-        public User User { get; private set; }
+        public User User { get; }
         
         public UserCreateEvent(User User, Guid EntityId) : 
                 base(EntityId)
