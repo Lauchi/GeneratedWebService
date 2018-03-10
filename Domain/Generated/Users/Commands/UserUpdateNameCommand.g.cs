@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Application.Users.Commands
+namespace Domain.Users
 {
     using System;
     using System.Collections.Generic;

@@ -8,20 +8,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Application.Posts.Commands
+namespace Domain.Users
 {
     using System;
     using System.Collections.Generic;
     
     
-    public class PostCreateCommand
+    public class UserCreateCommand
     {
         
-        public String Title { get; private set; }
+        public String Name { get; private set; }
         
-        public PostCreateCommand(String Title)
+        public UserCreateCommand(String Name)
         {
-            this.Title = Title;
+            this.Name = Name;
         }
     }
 }

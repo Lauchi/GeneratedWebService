@@ -26,7 +26,7 @@ namespace GeneratedWebService
                 .AddTransient<IEventStore, EventStore>()
                 .AddTransient<IEventStoreRepository, EventStoreRepository>()
                 .AddTransient<IUserRepository, UserRepository>()
-                .AddTransient<IUserCommandHandler, UserCommandHandler>()
+                .AddTransient<UserCommandHandler>()
                 .AddMvc()
                 .AddApplicationPart(typeof(UserController).Assembly);
         }

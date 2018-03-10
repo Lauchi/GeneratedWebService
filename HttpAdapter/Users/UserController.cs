@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Application.Users;
-using Application.Users.Commands;
+using Domain.Users;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HttpAdapter.Users
@@ -9,9 +9,9 @@ namespace HttpAdapter.Users
     [Route("api/users")]
     public class UserController : Controller
     {
-        private readonly IUserCommandHandler _commandHandler;
+        private readonly UserCommandHandler _commandHandler;
 
-        public UserController(IUserCommandHandler commandHandler)
+        public UserController(UserCommandHandler commandHandler)
         {
             _commandHandler = commandHandler;
         }
@@ -37,7 +37,7 @@ namespace HttpAdapter.Users
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUserName(Guid id, [FromBody] UserUpdateNameCommand updateUserNameCommand)
         {
-            return await _commandHandler.UpdateUserName(id, updateUserNameCommand);
+            return await _commandHandler.UpdateNameUser(id, updateUserNameCommand);
         }
     }
 }

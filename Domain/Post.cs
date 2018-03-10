@@ -1,13 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Domain.Posts
 {
     public partial class Post
     {
-        public static PostCreateEvent Create(string title)
+        public static CreationResult<Post> Create(PostCreateCommand command)
         {
             var newGuid = Guid.NewGuid();
-            return new PostCreateEvent(new Post(newGuid, title), newGuid);
+            var post = new Post(newGuid, command.Title);
+            var createEvent = new PostCreateEvent(post, newGuid);
+            var domainEventBases = new List<DomainEventBase>();
+            domainEventBases.Add(createEvent);
+            return CreationResult<Post>.OkResult(domainEventBases, post);
         }
     }
 }

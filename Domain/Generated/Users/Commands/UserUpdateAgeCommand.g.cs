@@ -8,20 +8,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Application.Users.Commands
+namespace Domain.Users
 {
     using System;
     using System.Collections.Generic;
     
     
-    public class UserCreateCommand
+    public class UserUpdateAgeCommand
     {
         
-        public String Name { get; private set; }
+        public Int32 Age { get; private set; }
         
-        public UserCreateCommand(String Name)
+        public UserUpdateAgeCommand(Int32 Age)
         {
-            this.Name = Name;
+            this.Age = Age;
         }
     }
 }
