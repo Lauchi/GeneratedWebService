@@ -4,10 +4,10 @@ namespace Domain.Posts
 {
     public partial class Post
     {
-        public static CreatePostEvent Create(string title)
+        public static PostCreateEvent Create(string title)
         {
             var newGuid = Guid.NewGuid();
-            return new CreatePostEvent(new Post(newGuid, title), newGuid);
+            return new PostCreateEvent(new Post(newGuid, title), newGuid);
         }
     }
 }

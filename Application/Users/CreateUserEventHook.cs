@@ -9,7 +9,7 @@ namespace Application.Users.Hooks
     {
         public HookResult Execute(DomainEventBase domainEvent)
         {
-            if (domainEvent is CreateUserEvent parsedEvent)
+            if (domainEvent is UserCreateEvent parsedEvent)
             {
                 var newUserAge = parsedEvent.User.Age + 10;
                 var domainEventBases = new List<DomainEventBase>();

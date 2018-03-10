@@ -25,7 +25,7 @@ namespace Domain.Users
             if (name.Length > 4) {
                 var newGuid = Guid.NewGuid();
                 var user = new User(newGuid, name);
-                return CreationResult<User>.OkResult(new List<DomainEventBase> {new CreateUserEvent(user, newGuid)}, user);
+                return CreationResult<User>.OkResult(new List<DomainEventBase> {new UserCreateEvent(user, newGuid)}, user);
             }
 
             return CreationResult<User>.ErrorResult(new List<string> {"Name too short"});

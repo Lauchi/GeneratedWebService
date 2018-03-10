@@ -9,7 +9,7 @@ namespace Application.Users.Hooks
 
         public CreateUserEventHook()
         {
-            EventType = typeof(CreateUserEvent);
+            EventType = typeof(UserCreateEvent);
         }
 
     }
