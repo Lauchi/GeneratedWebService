@@ -33,7 +33,7 @@ namespace SqlAdapter.Users
             await _eventStore.SaveChangesAsync();
         }
 
-        public async Task<IList<User>> GetUsers()
+        public async Task<List<User>> GetUsers()
         {
             return await _eventStore.Users.ToListAsync();
         }
