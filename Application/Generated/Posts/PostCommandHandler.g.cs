@@ -39,7 +39,7 @@ namespace Application.Posts
         public async Task<IActionResult> GetPost(Guid id)
         {
             var result = await PostRepository.GetPost(id);
-            if (result != null) return new JsonResult(result);;
+            if (result != null) return new JsonResult(result);
             return new NotFoundObjectResult(new List<string> { $"Could not find Post with ID: {id}" });
         }
         

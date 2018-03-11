@@ -39,7 +39,7 @@ namespace Application.Users
         public async Task<IActionResult> GetUser(Guid id)
         {
             var result = await UserRepository.GetUser(id);
-            if (result != null) return new JsonResult(result);;
+            if (result != null) return new JsonResult(result);
             return new NotFoundObjectResult(new List<string> { $"Could not find User with ID: {id}" });
         }
         
