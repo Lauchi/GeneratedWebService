@@ -1,4 +1,5 @@
 ﻿using Application;
+using Application.Posts;
 using Application.Users;
 using HttpAdapter.Users;
 using Microsoft.AspNetCore.Builder;
@@ -7,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SqlAdapter;
+using SqlAdapter.Posts;
 using SqlAdapter.Users;
 
 namespace GeneratedWebService
@@ -26,7 +28,9 @@ namespace GeneratedWebService
                 .AddTransient<IEventStore, EventStore>()
                 .AddTransient<IEventStoreRepository, EventStoreRepository>()
                 .AddTransient<IUserRepository, UserRepository>()
+                .AddTransient<IPostRepository, PostRepository>()
                 .AddTransient<UserCommandHandler>()
+                .AddTransient<PostCommandHandler>()
                 .AddMvc()
                 .AddApplicationPart(typeof(UserController).Assembly);
         }
