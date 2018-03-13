@@ -31,13 +31,13 @@ namespace SqlAdapter.Posts
         public async Task CreatePost(Post post)
         {
             EventStore.Posts.Add(post);
-            await EventStore.SaveChangesAsync();;
+            await EventStore.SaveChangesAsync();
         }
         
         public async Task UpdatePost(Post post)
         {
             EventStore.Posts.Update(post);
-            await EventStore.SaveChangesAsync();;
+            await EventStore.SaveChangesAsync();
         }
         
         public async Task<Post> GetPost(Guid id)

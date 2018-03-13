@@ -46,7 +46,11 @@ namespace SqlAdapter.Migrations
 
                     b.Property<string>("Title");
 
+                    b.Property<Guid?>("UserId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Posts");
                 });
@@ -105,6 +109,13 @@ namespace SqlAdapter.Migrations
                     b.ToTable("UserUpdateNameEvent");
 
                     b.HasDiscriminator().HasValue("UserUpdateNameEvent");
+                });
+
+            modelBuilder.Entity("Domain.Posts.Post", b =>
+                {
+                    b.HasOne("Domain.Users.User")
+                        .WithMany("Posts")
+                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }

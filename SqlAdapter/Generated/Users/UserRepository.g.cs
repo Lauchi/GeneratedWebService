@@ -31,13 +31,13 @@ namespace SqlAdapter.Users
         public async Task CreateUser(User user)
         {
             EventStore.Users.Add(user);
-            await EventStore.SaveChangesAsync();;
+            await EventStore.SaveChangesAsync();
         }
         
         public async Task UpdateUser(User user)
         {
             EventStore.Users.Update(user);
-            await EventStore.SaveChangesAsync();;
+            await EventStore.SaveChangesAsync();
         }
         
         public async Task<User> GetUser(Guid id)
