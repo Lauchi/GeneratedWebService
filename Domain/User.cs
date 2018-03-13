@@ -18,16 +18,16 @@ namespace Domain.Users
 
         public ValidationResult UpdateAge(UserUpdateAgeCommand command)
         {
-            this.Age = command.Age;
-            return ValidationResult.OkResult(new List<DomainEventBase> { new UserUpdateAgeEvent(this.Age, this.Id) });
+            Age = command.Age;
+            return ValidationResult.OkResult(new List<DomainEventBase> { new UserUpdateAgeEvent(Age, Id) });
         }
 
         public ValidationResult UpdateName(UserUpdateNameCommand command)
         {
             if (command.Name.Length < 20)
             {
-                this.Name = command.Name;
-                return ValidationResult.OkResult(new List<DomainEventBase> { new UserUpdateNameEvent(this.Name, this.Id) });
+                Name = command.Name;
+                return ValidationResult.OkResult(new List<DomainEventBase> { new UserUpdateNameEvent(Name, Id) });
             }
             return ValidationResult.ErrorResult(new List<string> { "Name is too long" });
         }

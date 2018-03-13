@@ -30,19 +30,19 @@ namespace HttpAdapter.Users
         }
         
         [HttpPost()]
-        public async Task<IActionResult> CreateUser(UserCreateCommand command)
+        public async Task<IActionResult> CreateUser([FromBody] UserCreateCommand command)
         {
             return await Handler.CreateUser(command);
         }
         
         [HttpPut("{id}/updateage")]
-        public async Task<IActionResult> UpdateAge(Guid id, UserUpdateAgeCommand command)
+        public async Task<IActionResult> UpdateAge(Guid id, [FromBody] UserUpdateAgeCommand command)
         {
             return await Handler.UpdateAgeUser(id, command);
         }
         
         [HttpPut("{id}/updatename")]
-        public async Task<IActionResult> UpdateName(Guid id, UserUpdateNameCommand command)
+        public async Task<IActionResult> UpdateName(Guid id, [FromBody] UserUpdateNameCommand command)
         {
             return await Handler.UpdateNameUser(id, command);
         }

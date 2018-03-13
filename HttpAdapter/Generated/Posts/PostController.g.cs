@@ -30,7 +30,7 @@ namespace HttpAdapter.Posts
         }
         
         [HttpPost()]
-        public async Task<IActionResult> CreatePost(PostCreateCommand command)
+        public async Task<IActionResult> CreatePost([FromBody] PostCreateCommand command)
         {
             return await Handler.CreatePost(command);
         }
