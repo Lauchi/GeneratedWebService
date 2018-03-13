@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace GeneratedWebService.Migrations
+namespace SqlAdapter.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
