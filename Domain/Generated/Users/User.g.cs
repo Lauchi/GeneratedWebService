@@ -28,11 +28,11 @@ namespace Domain.Users
         
         public List<Post> Posts { get; private set; } = new List<Post>();
         
-        public Guid Id { get; private set; }
-        
         public String Name { get; private set; }
         
         public Int32 Age { get; private set; }
+        
+        public Guid Id { get; private set; }
         
         private User(Guid Id, String Name)
         {
