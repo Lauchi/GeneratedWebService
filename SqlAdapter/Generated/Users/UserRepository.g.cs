@@ -42,12 +42,12 @@ namespace SqlAdapter.Users
         
         public async Task<User> GetUser(Guid id)
         {
-            return await EventStore.Users.FindAsync(id);
+            return await EventStore.Users.Include(entity => entity.Posts).FirstOrDefaultAsync(entity => entity.Id == id);
         }
         
         public async Task<List<User>> GetUsers()
         {
-            return await EventStore.Users.ToListAsync();
+            return await EventStore.Users.Include(entity => entity.Posts).ToListAsync();
         }
     }
 }

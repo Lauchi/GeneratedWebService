@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Domain.Posts;
 
 namespace Domain.Users
 {
@@ -24,12 +25,9 @@ namespace Domain.Users
 
         public ValidationResult UpdateName(UserUpdateNameCommand command)
         {
-            if (command.Name.Length < 20)
-            {
-                Name = command.Name;
-                return ValidationResult.OkResult(new List<DomainEventBase> { new UserUpdateNameEvent(Name, Id) });
-            }
-            return ValidationResult.ErrorResult(new List<string> { "Name is too long" });
+            var creationResult = Post.Create(new PostCreateCommand("luly"));
+            Posts.Add(creationResult.CreatedEntity);
+            return ValidationResult.OkResult(new List<DomainEventBase>());
         }
     }
 }

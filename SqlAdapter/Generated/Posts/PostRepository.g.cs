@@ -42,7 +42,7 @@ namespace SqlAdapter.Posts
         
         public async Task<Post> GetPost(Guid id)
         {
-            return await EventStore.Posts.FindAsync(id);
+            return await EventStore.Posts.FirstOrDefaultAsync(entity => entity.Id == id);
         }
         
         public async Task<List<Post>> GetPosts()
