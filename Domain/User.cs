@@ -10,7 +10,7 @@ namespace Domain.Users
         {
             if (command.Name.Length > 4) {
                 var newGuid = Guid.NewGuid();
-                var user = new User(newGuid, command.Name);
+                var user = new User(newGuid, command);
                 return CreationResult<User>.OkResult(new List<DomainEventBase> {new UserCreateEvent(user, newGuid)}, user);
             }
 
