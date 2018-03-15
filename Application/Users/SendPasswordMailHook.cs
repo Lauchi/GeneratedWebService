@@ -5,7 +5,7 @@ using Domain.Users;
 
 namespace Application.Users.Hooks
 {
-    public partial class CreateUserEventHook
+    public partial class SendPasswordMailHook
     {
         private HookResult Execute(UserCreateEvent userCreateEvent)
         {
