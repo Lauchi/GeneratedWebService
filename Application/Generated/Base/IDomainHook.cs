@@ -6,6 +6,6 @@ namespace Application
     public interface IDomainHook
     {
         Type EventType { get; }
-        HookResult Execute(DomainEventBase domainEvent);
+        HookResult ExecuteSave(DomainEventBase domainEvent);
     }
 }

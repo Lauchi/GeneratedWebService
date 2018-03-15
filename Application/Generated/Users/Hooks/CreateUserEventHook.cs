@@ -1,4 +1,5 @@
 using System;
+using Domain;
 using Domain.Users;
 
 namespace Application.Users.Hooks
@@ -12,5 +13,13 @@ namespace Application.Users.Hooks
             EventType = typeof(UserCreateEvent);
         }
 
+        public HookResult ExecuteSave(DomainEventBase domainEvent)
+        {
+            if (domainEvent is UserCreateEvent parsedEvent)
+            {
+                return Execute(parsedEvent);
+            }
+            throw new Exception("Event is not in the correct list");
+        }
     }
 }

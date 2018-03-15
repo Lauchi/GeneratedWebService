@@ -10,11 +10,11 @@ namespace Application
     {
         private readonly IEventStoreRepository _eventRepository;
 
-        public EventStore(IEventStoreRepository eventRepository)
+        public EventStore(IEventStoreRepository eventRepository, CreateUserEventHook CreateUserEventHook)
         {
             _eventRepository = eventRepository;
             DomainHooks = new List<IDomainHook>();
-            DomainHooks.Add(new CreateUserEventHook());
+            DomainHooks.Add(CreateUserEventHook);
         }
 
         public IList<IDomainHook> DomainHooks { get; }
@@ -26,7 +26,7 @@ namespace Application
                 var domainHooks = DomainHooks.Where(hook => hook.EventType == domainEvent.GetType());
                 foreach (var domainHook in domainHooks)
                 {
-                    var validationResult = domainHook.Execute(domainEvent);
+                    var validationResult = domainHook.ExecuteSave(domainEvent);
                     if (!validationResult.Ok)
                         return validationResult;
                 }
