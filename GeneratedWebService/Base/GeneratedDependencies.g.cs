@@ -29,7 +29,7 @@ namespace GeneratedWebService
         public static void ConfigureGeneratedServices(IServiceCollection collection)
         {
             collection.AddDbContext<EventStoreContext>(option => option.UseSqlite("Data Source=Eventstore.db"));
-            collection.AddTransient<IEventStore, EventStore>();
+            collection.AddTransient<EventStore>();
             collection.AddTransient<IEventStoreRepository, EventStoreRepository>();
             collection.AddMvc().AddApplicationPart(typeof(UserController).Assembly);
             collection.AddTransient<IUserRepository, UserRepository>();
