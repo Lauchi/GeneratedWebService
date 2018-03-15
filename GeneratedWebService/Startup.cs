@@ -24,7 +24,7 @@ namespace GeneratedWebService
 
         public void ConfigureServices(IServiceCollection services)
         {
-            GeneratedDependencies.ConfigureGeneratedServices(services);
+            GeneratedDependencies.ConfigureGeneratedServices(services, Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

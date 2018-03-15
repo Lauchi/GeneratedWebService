@@ -6,7 +6,7 @@ using Domain;
 
 namespace Application
 {
-    public class EventStore : IEventStore
+    public class EventStore
     {
         private readonly IEventStoreRepository _eventRepository;
 
