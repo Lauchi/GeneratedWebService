@@ -23,11 +23,15 @@ namespace GeneratedWebService
     using SqlAdapter.Posts;
     
     
-    public static class GeneratedDependencies
+    public class GeneratedDependencies
     {
         
-        public static IServiceCollection ConfigureGeneratedServices(this IServiceCollection collection)
+        public static void ConfigureGeneratedServices(IServiceCollection collection)
         {
+            collection.AddDbContext<EventStoreContext>(option => option.UseSqlite("Data Source=Eventstore.db"));
+            collection.AddTransient<IEventStore, EventStore>();
+            collection.AddTransient<IEventStoreRepository, EventStoreRepository>();
+            collection.AddMvc().AddApplicationPart(typeof(UserController).Assembly);
             collection.AddTransient<IUserRepository, UserRepository>();
             collection.AddTransient<UserCommandHandler>();
             collection.AddTransient<IPostRepository, PostRepository>();

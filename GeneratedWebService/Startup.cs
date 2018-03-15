@@ -24,15 +24,7 @@ namespace GeneratedWebService
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<EventStoreContext>(option => option.UseSqlite("Data Source=Eventstore.db"))
-                .AddTransient<IEventStore, EventStore>()
-                .AddTransient<IEventStoreRepository, EventStoreRepository>()
-                .AddTransient<IUserRepository, UserRepository>()
-                .AddTransient<IPostRepository, PostRepository>()
-                .AddTransient<UserCommandHandler>()
-                .AddTransient<PostCommandHandler>()
-                .AddMvc()
-                .AddApplicationPart(typeof(UserController).Assembly);
+            GeneratedDependencies.ConfigureGeneratedServices(services);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
