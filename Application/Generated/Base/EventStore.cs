@@ -25,7 +25,7 @@ namespace Application
                 var domainHooks = DomainHooks.Where(hook => hook.EventType == domainEvent.GetType());
                 foreach (var domainHook in domainHooks)
                 {
-                    var validationResult = domainHook.ExecuteSave(domainEvent);
+                    var validationResult = domainHook.ExecuteSavely(domainEvent);
                     if (!validationResult.Ok)
                         return validationResult;
                 }

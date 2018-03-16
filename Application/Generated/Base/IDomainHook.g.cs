@@ -22,6 +22,6 @@ namespace Application
             get;
         }
         
-        HookResult ExecuteSave(DomainEventBase domainEvent);
+        HookResult ExecuteSavely(DomainEventBase domainEvent);
     }
 }
