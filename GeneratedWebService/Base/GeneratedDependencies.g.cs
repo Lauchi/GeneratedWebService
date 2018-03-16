@@ -22,6 +22,7 @@ namespace GeneratedWebService
     using Application.Posts;
     using HttpAdapter.Posts;
     using SqlAdapter.Posts;
+    using Application.Users.Hooks;
     
     
     public class GeneratedDependencies
@@ -37,6 +38,7 @@ namespace GeneratedWebService
             collection.AddTransient<UserCommandHandler>();
             collection.AddTransient<IPostRepository, PostRepository>();
             collection.AddTransient<PostCommandHandler>();
+            collection.AddTransient<SendPasswordMailHook>();
         }
     }
 }

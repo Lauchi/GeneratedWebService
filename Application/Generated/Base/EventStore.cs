@@ -10,11 +10,11 @@ namespace Application
     {
         private readonly IEventStoreRepository _eventRepository;
 
-        public EventStore(IEventStoreRepository eventRepository, CreateUserEventHook CreateUserEventHook)
+        public EventStore(IEventStoreRepository eventRepository, SendPasswordMailHook SendPasswordMailHook)
         {
             _eventRepository = eventRepository;
             DomainHooks = new List<IDomainHook>();
-            DomainHooks.Add(CreateUserEventHook);
+            DomainHooks.Add(SendPasswordMailHook);
         }
 
         public IList<IDomainHook> DomainHooks { get; }
