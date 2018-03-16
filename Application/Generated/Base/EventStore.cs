@@ -13,11 +13,10 @@ namespace Application
         public EventStore(IEventStoreRepository eventRepository, SendPasswordMailHook SendPasswordMailHook)
         {
             _eventRepository = eventRepository;
-            DomainHooks = new List<IDomainHook>();
             DomainHooks.Add(SendPasswordMailHook);
         }
 
-        public IList<IDomainHook> DomainHooks { get; }
+        public IList<IDomainHook> DomainHooks { get; } = new List<IDomainHook>();
 
         public async Task<HookResult> AppendAll(List<DomainEventBase> domainEvents)
         {
