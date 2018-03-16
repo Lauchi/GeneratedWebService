@@ -20,7 +20,7 @@ namespace Application.Users.Hooks
         
         public Type EventType { get; private set; } = typeof(UserCreateEvent);
         
-        public HookResult ExecuteSave(DomainEventBase domainEvent)
+        public HookResult ExecuteSavely(DomainEventBase domainEvent)
         {
             if (domainEvent is UserCreateEvent parsedEvent)
             {
