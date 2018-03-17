@@ -11,7 +11,7 @@ using SqlAdapter;
 using SqlAdapter.Posts;
 using SqlAdapter.Users;
 
-namespace GeneratedWebService
+namespace Host
 {
     public class Startup
     {

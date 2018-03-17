@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace GeneratedWebService
+namespace Host
 {
     using System;
     using Application;

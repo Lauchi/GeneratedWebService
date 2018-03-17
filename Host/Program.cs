@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace GeneratedWebService
+namespace Host
 {
     public class Program
     {
