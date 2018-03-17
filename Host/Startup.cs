@@ -1,15 +1,9 @@
-﻿using Application;
-using Application.Posts;
-using Application.Users;
-using HttpAdapter.Users;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SqlAdapter;
-using SqlAdapter.Posts;
-using SqlAdapter.Users;
 
 namespace Host
 {
