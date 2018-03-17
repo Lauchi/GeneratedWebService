@@ -12,9 +12,7 @@ namespace GeneratedWebService
 {
     using System;
     using Application;
-    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Configuration;
     using SqlAdapter;
     using Application.Users;
     using HttpAdapter.Users;
@@ -28,9 +26,8 @@ namespace GeneratedWebService
     public class GeneratedDependencies
     {
         
-        public static void ConfigureGeneratedServices(IServiceCollection collection, IConfiguration configuration)
+        public static void ConfigureGeneratedServices(IServiceCollection collection)
         {
-            collection.AddDbContext<EventStoreContext>(option => option.UseSqlite(configuration.GetConnectionString("EventStoreDatabase")));
             collection.AddTransient<EventStore>();
             collection.AddTransient<IEventStoreRepository, EventStoreRepository>();
             collection.AddMvc().AddApplicationPart(typeof(UserController).Assembly);

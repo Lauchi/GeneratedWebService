@@ -24,7 +24,8 @@ namespace GeneratedWebService
 
         public void ConfigureServices(IServiceCollection services)
         {
-            GeneratedDependencies.ConfigureGeneratedServices(services, Configuration);
+            GeneratedDependencies.ConfigureGeneratedServices(services);
+            services.AddDbContext<EventStoreContext>(option => option.UseSqlite(Configuration.GetConnectionString("EventStoreDatabase")));
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
