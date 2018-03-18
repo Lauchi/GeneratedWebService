@@ -5,9 +5,6 @@
     <RootNamespace>Host</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="ResetDb.ps1" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Base\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
