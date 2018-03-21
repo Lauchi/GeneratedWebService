@@ -21,10 +21,10 @@ namespace Domain.Users
         ValidationResult UpdateAge(UserUpdateAgeCommand command);
         
         ValidationResult UpdateName(UserUpdateNameCommand command);
-
+        
         ValidationResult AddPost(UserAddPostCommand command);
     }
-
+    
     public partial class User : IUser
     {
         

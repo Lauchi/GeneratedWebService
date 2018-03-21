@@ -8,8 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using Application.Posts;
-
 namespace Application.Users
 {
     using System;
@@ -18,6 +16,7 @@ namespace Application.Users
     using Domain;
     using Domain.Users;
     using Microsoft.AspNetCore.Mvc;
+    using Application.Posts;
     
     
     public partial class UserCommandHandler
@@ -26,9 +25,9 @@ namespace Application.Users
         public EventStore EventStore { get; private set; }
         
         public IUserRepository UserRepository { get; private set; }
-
+        
         public IPostRepository PostRepository { get; private set; }
-
+        
         public UserCommandHandler(EventStore EventStore, IUserRepository UserRepository, IPostRepository PostRepository)
         {
             this.EventStore = EventStore;
@@ -106,35 +105,31 @@ namespace Application.Users
             }
             return new NotFoundObjectResult(new List<string> { $"Could not find User with ID: {id}" });
         }
-
-        public async Task<IActionResult> AddPostUser(Guid id, UserAddPostCommandApi command)
+        
+        public async Task<IActionResult> AddPostUser(Guid id, UserAddPostApiCommand apiCommand)
         {
             var entity = await UserRepository.GetUser(id);
             if (entity != null)
             {
-                var post = await PostRepository.GetPost(command.PostId);
-                if (post == null)
-                    return new NotFoundObjectResult(new List<string> {$"Could not find Post with ID: {id}"});
-                var userAddPostCommand = new UserAddPostCommand(post);
-                var validationResult = entity.AddPost(userAddPostCommand);
+                var NewPost = await PostRepository.GetPost(apiCommand.NewPostId);
+                if (NewPost == null) return new NotFoundObjectResult(new List<string> { $"Could not find Post with ID: {id}"});
+                var PostToDelete = await PostRepository.GetPost(apiCommand.PostToDeleteId);
+                if (PostToDelete == null) return new NotFoundObjectResult(new List<string> { $"Could not find Post with ID: {id}"});
+                var command = new UserAddPostCommand(NewPost, PostToDelete);
+                var validationResult = entity.AddPost(command);
                 if (validationResult.Ok)
                 {
-//                    var hookResult = await EventStore.AppendAll(validationResult.DomainEvents);
-//                    if (validationResult.Ok)
-//                    {
+                    var hookResult = await EventStore.AppendAll(validationResult.DomainEvents);
+                    if (validationResult.Ok)
+                    {
                         await UserRepository.UpdateUser(entity);
                         return new OkResult();
-                    //}
-                    //return new BadRequestObjectResult(hookResult.Errors);
+                    }
+                    return new BadRequestObjectResult(hookResult.Errors);
                 }
                 return new BadRequestObjectResult(validationResult.DomainErrors);
             }
             return new NotFoundObjectResult(new List<string> { $"Could not find User with ID: {id}" });
         }
-    }
-
-    public class UserAddPostCommandApi
-    {
-        public Guid PostId { get; set; }
     }
 }

@@ -15,6 +15,7 @@ namespace SqlAdapter.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     Discriminator = table.Column<string>(nullable: false),
                     EntityId = table.Column<Guid>(nullable: false),
+                    PostId = table.Column<Guid>(nullable: true),
                     Age = table.Column<int>(nullable: true),
                     Name = table.Column<string>(nullable: true)
                 },

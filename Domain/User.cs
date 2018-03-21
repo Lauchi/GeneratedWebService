@@ -34,20 +34,10 @@ namespace Domain.Users
         {
             if (Posts.Count < 20)
             {
-                Posts.Add(command.Post);
-                return ValidationResult.OkResult(new List<DomainEventBase>{new PostAddEvent(Id, command.Post.Id)});
+                Posts.Add(command.NewPost);
+                return ValidationResult.OkResult(new List<DomainEventBase>{new UserAddPostEvent(command.NewPost.Id, command.PostToDelete.Id, Id) });
             }
             return ValidationResult.ErrorResult(new List<string>{"Can not add more than 20 Posts"});
-        }
-    }
-
-    public class PostAddEvent : DomainEventBase
-    {
-        public Guid PostId { get; private set; }
-
-        public PostAddEvent(Guid Id, Guid PostId) : base(Id)
-        {
-            this.PostId = PostId;
         }
     }
 }

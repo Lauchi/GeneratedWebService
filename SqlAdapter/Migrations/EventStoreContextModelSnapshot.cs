@@ -79,6 +79,17 @@ namespace SqlAdapter.Migrations
                     b.HasDiscriminator().HasValue("PostCreateEvent");
                 });
 
+            modelBuilder.Entity("Domain.Users.UserAddPostEvent", b =>
+                {
+                    b.HasBaseType("Domain.DomainEventBase");
+
+                    b.Property<Guid>("PostId");
+
+                    b.ToTable("UserAddPostEvent");
+
+                    b.HasDiscriminator().HasValue("UserAddPostEvent");
+                });
+
             modelBuilder.Entity("Domain.Users.UserCreateEvent", b =>
                 {
                     b.HasBaseType("Domain.DomainEventBase");
