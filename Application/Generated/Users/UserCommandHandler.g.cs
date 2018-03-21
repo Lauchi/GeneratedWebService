@@ -8,6 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using Application.Posts;
+
 namespace Application.Users
 {
     using System;
@@ -24,11 +26,14 @@ namespace Application.Users
         public EventStore EventStore { get; private set; }
         
         public IUserRepository UserRepository { get; private set; }
-        
-        public UserCommandHandler(EventStore EventStore, IUserRepository UserRepository)
+
+        public IPostRepository PostRepository { get; private set; }
+
+        public UserCommandHandler(EventStore EventStore, IUserRepository UserRepository, IPostRepository PostRepository)
         {
             this.EventStore = EventStore;
             this.UserRepository = UserRepository;
+            this.PostRepository = PostRepository;
         }
         
         public async Task<IActionResult> GetUsers()
@@ -101,5 +106,35 @@ namespace Application.Users
             }
             return new NotFoundObjectResult(new List<string> { $"Could not find User with ID: {id}" });
         }
+
+        public async Task<IActionResult> AddPostUser(Guid id, UserAddPostCommandApi command)
+        {
+            var entity = await UserRepository.GetUser(id);
+            if (entity != null)
+            {
+                var post = await PostRepository.GetPost(command.PostId);
+                if (post == null)
+                    return new NotFoundObjectResult(new List<string> {$"Could not find Post with ID: {id}"});
+                var userAddPostCommand = new UserAddPostCommand(post);
+                var validationResult = entity.AddPost(userAddPostCommand);
+                if (validationResult.Ok)
+                {
+//                    var hookResult = await EventStore.AppendAll(validationResult.DomainEvents);
+//                    if (validationResult.Ok)
+//                    {
+                        await UserRepository.UpdateUser(entity);
+                        return new OkResult();
+                    //}
+                    //return new BadRequestObjectResult(hookResult.Errors);
+                }
+                return new BadRequestObjectResult(validationResult.DomainErrors);
+            }
+            return new NotFoundObjectResult(new List<string> { $"Could not find User with ID: {id}" });
+        }
+    }
+
+    public class UserAddPostCommandApi
+    {
+        public Guid PostId { get; set; }
     }
 }
