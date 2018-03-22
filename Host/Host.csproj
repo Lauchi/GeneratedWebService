@@ -3,6 +3,7 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <AssemblyName>Host</AssemblyName>
     <RootNamespace>Host</RootNamespace>
+    <DebugType>full</DebugType>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Base\" />
