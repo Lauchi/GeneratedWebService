@@ -1,10 +1,10 @@
+using System;
+using System.Diagnostics;
 using Hangfire;
-using Hangfire.SQLite;
+using Hangfire.SqlServer;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace AsyncHost
 {
@@ -19,20 +19,25 @@ namespace AsyncHost
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddHangfire(config =>
-            {
-                config.UseSQLiteStorage(Configuration.GetConnectionString("HangfireDatabase"));
-            });
-
-            services.AddMvc();
+            var options = new SqlServerStorageOptions();
+            services.AddHangfire(configuration =>
+                GlobalConfiguration.Configuration.UseSqlServerStorage(
+                    Configuration.GetConnectionString("HangfireDatabase"), options)).AddMvc();
         }
 
         public void Configure(IApplicationBuilder app)
         {
+            var option = new BackgroundJobServerOptions {WorkerCount = 1};
+            app.UseHangfireServer(option);
             app.UseHangfireDashboard();
-            app.UseHangfireServer();
 
+            RecurringJob.AddOrUpdate(() => Run(), Cron.Minutely);
             app.UseMvc();
+        }
+
+        public void Run()
+        {
+            Debug.WriteLine($"Run at {DateTime.Now}");
         }
     }
 }
