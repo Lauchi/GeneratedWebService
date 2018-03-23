@@ -228,10 +228,13 @@ namespace Application.Tests
             var postRepo = new Mock<IPostRepository>();
             var userRepo = new Mock<IUserRepository>();
             var updateId = Guid.NewGuid();
+            var updateId2 = Guid.NewGuid();
             var post = Post.Create(new PostCreateCommand("Peters Post")).CreatedEntity;
+            var post2 = Post.Create(new PostCreateCommand("Peters Post")).CreatedEntity;
             var user = User.Create(new UserCreateCommand("Peter", 13)).CreatedEntity;
 
             postRepo.Setup(repo => repo.GetPost(updateId)).ReturnsAsync(post);
+            postRepo.Setup(repo => repo.GetPost(updateId2)).ReturnsAsync(post2);
             userRepo.Setup(repo => repo.GetUser(updateId)).ReturnsAsync(user);
 
             var userCommandHandler = new UserCommandHandler(eventStore.Object, userRepo.Object, postRepo.Object);
@@ -273,10 +276,13 @@ namespace Application.Tests
             var postRepo = new Mock<IPostRepository>();
             var userRepo = new Mock<IUserRepository>();
             var updateId = Guid.NewGuid();
+            var updateId2 = Guid.NewGuid();
             var post = Post.Create(new PostCreateCommand("Peters Post")).CreatedEntity;
+            var post2 = Post.Create(new PostCreateCommand("Peters Post")).CreatedEntity;
             var user = User.Create(new UserCreateCommand("Peter", 13)).CreatedEntity;
 
             postRepo.Setup(repo => repo.GetPost(updateId)).ReturnsAsync(post);
+            postRepo.Setup(repo => repo.GetPost(updateId2)).ReturnsAsync(post2);
             userRepo.Setup(repo => repo.GetUser(updateId)).ReturnsAsync(user);
 
             var userCommandHandler = new UserCommandHandler(eventStore.Object, userRepo.Object, postRepo.Object);
