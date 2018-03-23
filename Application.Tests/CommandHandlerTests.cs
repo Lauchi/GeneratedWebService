@@ -239,5 +239,25 @@ namespace Application.Tests
             var result = await userCommandHandler.AddPostUser(updateId, new UserAddPostApiCommand(updateId, updateId));
             Assert.AreEqual(200, ((OkResult)result).StatusCode);
         }
+
+        [TestMethod]
+        public async Task LoadMethod_RootNotFound()
+        {
+            var eventStore = new Mock<IEventStore>();
+
+            var postRepo = new Mock<IPostRepository>();
+            var userRepo = new Mock<IUserRepository>();
+
+            userRepo.Setup(repo => repo.GetUser(It.IsAny<Guid>())).ReturnsAsync((User) null);
+
+            var userCommandHandler = new UserCommandHandler(eventStore.Object, userRepo.Object, postRepo.Object);
+
+            var userGuid = Guid.NewGuid();
+            var result = await userCommandHandler.AddPostUser(userGuid, new UserAddPostApiCommand(Guid.NewGuid(), Guid.NewGuid()));
+            Assert.AreEqual(404, ((NotFoundObjectResult)result).StatusCode);
+            var errors = $"Could not find Root User with ID: {userGuid}";
+            Assert.AreEqual(1, ((List<string>)((NotFoundObjectResult)result).Value).Count);
+            Assert.AreEqual(errors, ((List<string>)((NotFoundObjectResult)result).Value)[0]);
+        }
     }
 }
