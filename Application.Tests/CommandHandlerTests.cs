@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Application.Posts;
 using Application.Users;
 using Domain;
+using Domain.Posts;
 using Domain.Users;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -215,6 +216,28 @@ namespace Application.Tests
             var result = await userCommandHandler.UpdateNameUser(updateId, new UserUpdateNameCommand("NeuerPeter"));
             Assert.AreEqual(400, ((BadRequestObjectResult)result).StatusCode);
             Assert.AreEqual(errors, (List<string>)((BadRequestObjectResult)result).Value);
+        }
+
+        [TestMethod]
+        public async Task LoadMethod_HappyPath()
+        {
+            var eventStore = new Mock<IEventStore>();
+            eventStore.Setup(store => store.AppendAll(It.IsAny<List<DomainEventBase>>()))
+                .ReturnsAsync(HookResult.OkResult);
+
+            var postRepo = new Mock<IPostRepository>();
+            var userRepo = new Mock<IUserRepository>();
+            var updateId = Guid.NewGuid();
+            var post = Post.Create(new PostCreateCommand("Peters Post")).CreatedEntity;
+            var user = User.Create(new UserCreateCommand("Peter", 13)).CreatedEntity;
+
+            postRepo.Setup(repo => repo.GetPost(updateId)).ReturnsAsync(post);
+            userRepo.Setup(repo => repo.GetUser(updateId)).ReturnsAsync(user);
+
+            var userCommandHandler = new UserCommandHandler(eventStore.Object, userRepo.Object, postRepo.Object);
+
+            var result = await userCommandHandler.AddPostUser(updateId, new UserAddPostApiCommand(updateId, updateId));
+            Assert.AreEqual(200, ((OkResult)result).StatusCode);
         }
     }
 }
