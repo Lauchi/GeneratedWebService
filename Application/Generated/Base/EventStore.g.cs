@@ -16,9 +16,14 @@ namespace Application
     using System.Collections.Generic;
     using System.Linq;
     using Application.Users.Hooks;
-    
-    
-    public class EventStore
+
+
+    public interface IEventStore
+    {
+        Task<HookResult> AppendAll(List<DomainEventBase> domainEvents);
+    }
+
+    public class EventStore : IEventStore
     {
         
         public IEventStoreRepository EventStoreRepository { get; }
