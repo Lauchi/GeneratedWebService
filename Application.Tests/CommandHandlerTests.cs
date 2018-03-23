@@ -51,5 +51,46 @@ namespace Application.Tests
             var result = await userCommandHandler.GetUser(searchGuid);
             Assert.AreEqual(404, ((NotFoundObjectResult)result).StatusCode);
         }
+
+
+        [TestMethod]
+        public async Task GetByAllMethod()
+        {
+            var eventStore = new Mock<IEventStore>();
+            eventStore.Setup(store => store.AppendAll(It.IsAny<List<DomainEventBase>>()))
+                .ReturnsAsync(HookResult.OkResult());
+            var postRepo = new Mock<IPostRepository>();
+
+            var userRepo = new Mock<IUserRepository>();
+            List<User> userList = new List<User>
+            {
+                User.Create(new UserCreateCommand("Peter", 18)).CreatedEntity,
+                User.Create(new UserCreateCommand("Maier", 21)).CreatedEntity
+            };
+            userRepo.Setup(repo => repo.GetUsers()).ReturnsAsync(userList);
+
+            var userCommandHandler = new UserCommandHandler(eventStore.Object, userRepo.Object, postRepo.Object);
+
+            var result = await userCommandHandler.GetUsers();
+            Assert.AreEqual(userList, (List<User>)((OkObjectResult)result).Value);
+        }
+
+        [TestMethod]
+        public async Task GetByAllMethod_EmptyList()
+        {
+            var eventStore = new Mock<IEventStore>();
+            eventStore.Setup(store => store.AppendAll(It.IsAny<List<DomainEventBase>>()))
+                .ReturnsAsync(HookResult.OkResult());
+            var postRepo = new Mock<IPostRepository>();
+
+            var userRepo = new Mock<IUserRepository>();
+            List<User> userList = new List<User>();
+            userRepo.Setup(repo => repo.GetUsers()).ReturnsAsync(userList);
+
+            var userCommandHandler = new UserCommandHandler(eventStore.Object, userRepo.Object, postRepo.Object);
+
+            var result = await userCommandHandler.GetUsers();
+            Assert.AreEqual(userList, (List<User>)((OkObjectResult)result).Value);
+        }
     }
 }
