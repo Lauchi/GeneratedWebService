@@ -241,6 +241,52 @@ namespace Application.Tests
         }
 
         [TestMethod]
+        public async Task LoadMethod_DomainError()
+        {
+            var eventStore = new Mock<IEventStore>();
+
+            var postRepo = new Mock<IPostRepository>();
+            var userRepo = new Mock<IUserRepository>();
+            var updateId = Guid.NewGuid();
+            var post = Post.Create(new PostCreateCommand("Peters Post")).CreatedEntity;
+            var user = User.Create(new UserCreateCommand("Peter", 13)).CreatedEntity;
+
+            postRepo.Setup(repo => repo.GetPost(updateId)).ReturnsAsync(post);
+            userRepo.Setup(repo => repo.GetUser(updateId)).ReturnsAsync(user);
+
+            var userCommandHandler = new UserCommandHandler(eventStore.Object, userRepo.Object, postRepo.Object);
+
+            var result = await userCommandHandler.AddPostUser(updateId, new UserAddPostApiCommand(updateId, updateId));
+            Assert.AreEqual(400, ((BadRequestObjectResult)result).StatusCode);
+            Assert.AreEqual(1, ((List<string>)((BadRequestObjectResult)result).Value).Count);
+            Assert.AreEqual("Can not delete post that should be added", ((List<string>)((BadRequestObjectResult)result).Value)[0]);
+        }
+
+        [TestMethod]
+        public async Task LoadMethod_HookResultError()
+        {
+            var eventStore = new Mock<IEventStore>();
+            var errors = new List<string>{"error"};
+            eventStore.Setup(store => store.AppendAll(It.IsAny<List<DomainEventBase>>()))
+                .ReturnsAsync(HookResult.ErrorResult(errors));
+
+            var postRepo = new Mock<IPostRepository>();
+            var userRepo = new Mock<IUserRepository>();
+            var updateId = Guid.NewGuid();
+            var post = Post.Create(new PostCreateCommand("Peters Post")).CreatedEntity;
+            var user = User.Create(new UserCreateCommand("Peter", 13)).CreatedEntity;
+
+            postRepo.Setup(repo => repo.GetPost(updateId)).ReturnsAsync(post);
+            userRepo.Setup(repo => repo.GetUser(updateId)).ReturnsAsync(user);
+
+            var userCommandHandler = new UserCommandHandler(eventStore.Object, userRepo.Object, postRepo.Object);
+
+            var result = await userCommandHandler.AddPostUser(updateId, new UserAddPostApiCommand(updateId, updateId));
+            Assert.AreEqual(400, ((BadRequestObjectResult)result).StatusCode);
+            Assert.AreEqual(errors, (List<string>)((BadRequestObjectResult)result).Value);
+        }
+
+        [TestMethod]
         public async Task LoadMethod_RootNotFound()
         {
             var eventStore = new Mock<IEventStore>();

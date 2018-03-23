@@ -36,12 +36,12 @@ namespace Domain.Users
 
         public ValidationResult AddPost(UserAddPostCommand command)
         {
-            if (Posts.Count < 20)
+            if (command.NewPost != command.PostToDelete)
             {
                 Posts.Add(command.NewPost);
                 return ValidationResult.OkResult(new List<DomainEventBase>{new UserAddPostEvent(command.NewPost.Id, command.PostToDelete.Id, Id) });
             }
-            return ValidationResult.ErrorResult(new List<string>{"Can not add more than 20 Posts"});
+            return ValidationResult.ErrorResult(new List<string>{"Can not delete post that should be added"});
         }
     }
 }
