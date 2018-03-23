@@ -123,7 +123,6 @@ namespace Application.Tests
             eventStore.Setup(store => store.AppendAll(It.IsAny<List<DomainEventBase>>()))
                 .ReturnsAsync(HookResult.ErrorResult(errors));
             var postRepo = new Mock<IPostRepository>();
-
             var userRepo = new Mock<IUserRepository>();
 
             var userCommandHandler = new UserCommandHandler(eventStore.Object, userRepo.Object, postRepo.Object);
@@ -131,6 +130,21 @@ namespace Application.Tests
             var result = await userCommandHandler.CreateUser(new UserCreateCommand("Peter", 18));
             Assert.AreEqual(400, ((BadRequestObjectResult)result).StatusCode);
             Assert.AreEqual(errors, (List<string>)((BadRequestObjectResult)result).Value);
+        }
+
+        [TestMethod]
+        public async Task CreateUser_CreateFails()
+        {
+            var eventStore = new Mock<IEventStore>();
+            var postRepo = new Mock<IPostRepository>();
+            var userRepo = new Mock<IUserRepository>();
+
+            var userCommandHandler = new UserCommandHandler(eventStore.Object, userRepo.Object, postRepo.Object);
+
+            var result = await userCommandHandler.CreateUser(new UserCreateCommand("Pe", 18));
+            Assert.AreEqual(400, ((BadRequestObjectResult)result).StatusCode);
+            Assert.AreEqual(1, ((List<string>)((BadRequestObjectResult)result).Value).Count);
+            Assert.AreEqual("Name too short", ((List<string>)((BadRequestObjectResult)result).Value)[0]);
         }
     }
 }
