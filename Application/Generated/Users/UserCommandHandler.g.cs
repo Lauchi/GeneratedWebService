@@ -73,7 +73,7 @@ namespace Application.Users
                 if (validationResult.Ok)
                 {
                     var hookResult = await EventStore.AppendAll(validationResult.DomainEvents);
-                    if (validationResult.Ok)
+                    if (hookResult.Ok)
                     {
                         await UserRepository.UpdateUser(entity);
                         return new OkResult();
@@ -94,7 +94,7 @@ namespace Application.Users
                 if (validationResult.Ok)
                 {
                     var hookResult = await EventStore.AppendAll(validationResult.DomainEvents);
-                    if (validationResult.Ok)
+                    if (hookResult.Ok)
                     {
                         await UserRepository.UpdateUser(entity);
                         return new OkResult();

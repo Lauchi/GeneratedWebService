@@ -195,5 +195,26 @@ namespace Application.Tests
             Assert.AreEqual(400, ((BadRequestObjectResult)result).StatusCode);
             Assert.AreEqual("Name too short to update", ((List<string>)((BadRequestObjectResult)result).Value)[0]);
         }
+
+        [TestMethod]
+        public async Task UpdateNameUser_HookFailing()
+        {
+            var eventStore = new Mock<IEventStore>();
+            var errors = new List<string>{"error" };
+            eventStore.Setup(store => store.AppendAll(It.IsAny<List<DomainEventBase>>()))
+                .ReturnsAsync(HookResult.ErrorResult(errors));
+
+            var postRepo = new Mock<IPostRepository>();
+            var userRepo = new Mock<IUserRepository>();
+            var updateId = Guid.NewGuid();
+            var user = User.Create(new UserCreateCommand("Peter", 13)).CreatedEntity;
+            userRepo.Setup(repo => repo.GetUser(updateId)).ReturnsAsync(user);
+
+            var userCommandHandler = new UserCommandHandler(eventStore.Object, userRepo.Object, postRepo.Object);
+
+            var result = await userCommandHandler.UpdateNameUser(updateId, new UserUpdateNameCommand("NeuerPeter"));
+            Assert.AreEqual(400, ((BadRequestObjectResult)result).StatusCode);
+            Assert.AreEqual(errors, (List<string>)((BadRequestObjectResult)result).Value);
+        }
     }
 }
