@@ -33,5 +33,23 @@ namespace Application.Tests
             Assert.AreEqual("Peter", ((User)((JsonResult)user).Value).Name);
             Assert.AreEqual(12, ((User)((JsonResult)user).Value).Age);
         }
+
+        [TestMethod]
+        public async Task GetByIdMethod_NotFound()
+        {
+            var eventStore = new Mock<IEventStore>();
+            eventStore.Setup(store => store.AppendAll(It.IsAny<List<DomainEventBase>>()))
+                .ReturnsAsync(HookResult.OkResult());
+            var postRepo = new Mock<IPostRepository>();
+
+            var userRepo = new Mock<IUserRepository>();
+            var searchGuid = Guid.NewGuid();
+            userRepo.Setup(repo => repo.GetUser(searchGuid)).ReturnsAsync((User) null);
+
+            var userCommandHandler = new UserCommandHandler(eventStore.Object, userRepo.Object, postRepo.Object);
+
+            var result = await userCommandHandler.GetUser(searchGuid);
+            Assert.AreEqual(404, ((NotFoundObjectResult)result).StatusCode);
+        }
     }
 }
