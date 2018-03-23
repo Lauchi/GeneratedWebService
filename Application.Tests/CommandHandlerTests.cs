@@ -239,7 +239,7 @@ namespace Application.Tests
 
             var userCommandHandler = new UserCommandHandler(eventStore.Object, userRepo.Object, postRepo.Object);
 
-            var result = await userCommandHandler.AddPostUser(updateId, new UserAddPostApiCommand(updateId, updateId));
+            var result = await userCommandHandler.AddPostUser(updateId, new UserAddPostApiCommand(updateId, updateId2));
             Assert.AreEqual(200, ((OkResult)result).StatusCode);
         }
 
@@ -287,7 +287,7 @@ namespace Application.Tests
 
             var userCommandHandler = new UserCommandHandler(eventStore.Object, userRepo.Object, postRepo.Object);
 
-            var result = await userCommandHandler.AddPostUser(updateId, new UserAddPostApiCommand(updateId, updateId));
+            var result = await userCommandHandler.AddPostUser(updateId, new UserAddPostApiCommand(updateId, updateId2));
             Assert.AreEqual(400, ((BadRequestObjectResult)result).StatusCode);
             Assert.AreEqual(errors, (List<string>)((BadRequestObjectResult)result).Value);
         }
