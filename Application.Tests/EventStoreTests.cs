@@ -13,7 +13,7 @@ namespace Application.Tests
     public class EventStoreTests
     {
         [TestMethod]
-        public async Task GetByIdMethod()
+        public async Task AppendEvents_HappyPath()
         {
             var eventRepo = new Mock<IEventStoreRepository>();
             eventRepo.Setup(repo => repo.AddEvents(It.IsAny<List<DomainEventBase>>())).Returns(Task.FromResult(true));
