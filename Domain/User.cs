@@ -26,8 +26,12 @@ namespace Domain.Users
         public ValidationResult UpdateName(UserUpdateNameCommand command)
         {
             var creationResult = Post.Create(new PostCreateCommand("luly"));
-            Posts.Add(creationResult.CreatedEntity);
-            return ValidationResult.OkResult(new List<DomainEventBase>());
+            if (command.Name.Length > 4) {
+                Posts.Add(creationResult.CreatedEntity);
+                return ValidationResult.OkResult(new List<DomainEventBase>());
+            }
+            return ValidationResult.ErrorResult(new List<string>{"Name too short to update"});
+
         }
 
         public ValidationResult AddPost(UserAddPostCommand command)

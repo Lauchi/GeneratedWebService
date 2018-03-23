@@ -21,8 +21,8 @@ namespace Application.Tests
             eventStore.Setup(store => store.AppendAll(It.IsAny<List<DomainEventBase>>()))
                 .ReturnsAsync(HookResult.OkResult());
             var postRepo = new Mock<IPostRepository>();
-
             var userRepo = new Mock<IUserRepository>();
+
             var creationResult = User.Create(new UserCreateCommand("Peter", 12)).CreatedEntity;
             var searchGuid = Guid.NewGuid();
             userRepo.Setup(repo => repo.GetUser(searchGuid)).ReturnsAsync(creationResult);
@@ -41,8 +41,8 @@ namespace Application.Tests
             eventStore.Setup(store => store.AppendAll(It.IsAny<List<DomainEventBase>>()))
                 .ReturnsAsync(HookResult.OkResult());
             var postRepo = new Mock<IPostRepository>();
-
             var userRepo = new Mock<IUserRepository>();
+
             var searchGuid = Guid.NewGuid();
             userRepo.Setup(repo => repo.GetUser(searchGuid)).ReturnsAsync((User) null);
 
@@ -60,8 +60,8 @@ namespace Application.Tests
             eventStore.Setup(store => store.AppendAll(It.IsAny<List<DomainEventBase>>()))
                 .ReturnsAsync(HookResult.OkResult());
             var postRepo = new Mock<IPostRepository>();
-
             var userRepo = new Mock<IUserRepository>();
+
             List<User> userList = new List<User>
             {
                 User.Create(new UserCreateCommand("Peter", 18)).CreatedEntity,
@@ -82,8 +82,8 @@ namespace Application.Tests
             eventStore.Setup(store => store.AppendAll(It.IsAny<List<DomainEventBase>>()))
                 .ReturnsAsync(HookResult.OkResult());
             var postRepo = new Mock<IPostRepository>();
-
             var userRepo = new Mock<IUserRepository>();
+
             List<User> userList = new List<User>();
             userRepo.Setup(repo => repo.GetUsers()).ReturnsAsync(userList);
 
@@ -145,6 +145,55 @@ namespace Application.Tests
             Assert.AreEqual(400, ((BadRequestObjectResult)result).StatusCode);
             Assert.AreEqual(1, ((List<string>)((BadRequestObjectResult)result).Value).Count);
             Assert.AreEqual("Name too short", ((List<string>)((BadRequestObjectResult)result).Value)[0]);
+        }
+
+        [TestMethod]
+        public async Task UpdateNameUser_HappyPath()
+        {
+            var eventStore = new Mock<IEventStore>();
+            eventStore.Setup(store => store.AppendAll(It.IsAny<List<DomainEventBase>>()))
+                .ReturnsAsync(HookResult.OkResult());
+            var postRepo = new Mock<IPostRepository>();
+            var userRepo = new Mock<IUserRepository>();
+            var updateId = Guid.NewGuid();
+            var user = User.Create(new UserCreateCommand("Peter", 13)).CreatedEntity;
+            userRepo.Setup(repo => repo.GetUser(updateId)).ReturnsAsync(user);
+
+            var userCommandHandler = new UserCommandHandler(eventStore.Object, userRepo.Object, postRepo.Object);
+
+            var result = await userCommandHandler.UpdateNameUser(updateId, new UserUpdateNameCommand("NeuerPeter"));
+            Assert.AreEqual(200, ((OkResult)result).StatusCode);
+        }
+
+        [TestMethod]
+        public async Task UpdateNameUser_UserNotFound()
+        {
+            var eventStore = new Mock<IEventStore>();
+            var postRepo = new Mock<IPostRepository>();
+            var userRepo = new Mock<IUserRepository>();
+            userRepo.Setup(repo => repo.GetUser(Guid.NewGuid())).ReturnsAsync((User) null);
+
+            var userCommandHandler = new UserCommandHandler(eventStore.Object, userRepo.Object, postRepo.Object);
+
+            var result = await userCommandHandler.UpdateNameUser(Guid.NewGuid(), new UserUpdateNameCommand("NeuerPeter"));
+            Assert.AreEqual(404, ((NotFoundObjectResult)result).StatusCode);
+        }
+
+        [TestMethod]
+        public async Task UpdateNameUser_UserUpdateNameError()
+        {
+            var eventStore = new Mock<IEventStore>();
+            var postRepo = new Mock<IPostRepository>();
+            var userRepo = new Mock<IUserRepository>();
+            var updateId = Guid.NewGuid();
+            var user = User.Create(new UserCreateCommand("Peter", 13)).CreatedEntity;
+            userRepo.Setup(repo => repo.GetUser(updateId)).ReturnsAsync(user);
+
+            var userCommandHandler = new UserCommandHandler(eventStore.Object, userRepo.Object, postRepo.Object);
+
+            var result = await userCommandHandler.UpdateNameUser(updateId, new UserUpdateNameCommand("Np"));
+            Assert.AreEqual(400, ((BadRequestObjectResult)result).StatusCode);
+            Assert.AreEqual("Name too short to update", ((List<string>)((BadRequestObjectResult)result).Value)[0]);
         }
     }
 }
