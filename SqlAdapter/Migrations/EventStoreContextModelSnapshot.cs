@@ -25,6 +25,8 @@ namespace SqlAdapter.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<long>("CreatedAt");
+
                     b.Property<string>("Discriminator")
                         .IsRequired();
 
@@ -82,6 +84,8 @@ namespace SqlAdapter.Migrations
             modelBuilder.Entity("Domain.Users.UserAddPostEvent", b =>
                 {
                     b.HasBaseType("Domain.DomainEventBase");
+
+                    b.Property<Guid>("Deleted");
 
                     b.Property<Guid>("PostId");
 

@@ -12,7 +12,7 @@ using System;
 namespace SqlAdapter.Migrations
 {
     [DbContext(typeof(EventStoreContext))]
-    [Migration("20180321223906_InitialMigration")]
+    [Migration("20180328202326_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,8 @@ namespace SqlAdapter.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<long>("CreatedAt");
 
                     b.Property<string>("Discriminator")
                         .IsRequired();
@@ -83,6 +85,8 @@ namespace SqlAdapter.Migrations
             modelBuilder.Entity("Domain.Users.UserAddPostEvent", b =>
                 {
                     b.HasBaseType("Domain.DomainEventBase");
+
+                    b.Property<Guid>("Deleted");
 
                     b.Property<Guid>("PostId");
 

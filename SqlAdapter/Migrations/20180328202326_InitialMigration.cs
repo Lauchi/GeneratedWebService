@@ -13,8 +13,10 @@ namespace SqlAdapter.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    CreatedAt = table.Column<long>(nullable: false),
                     Discriminator = table.Column<string>(nullable: false),
                     EntityId = table.Column<Guid>(nullable: false),
+                    Deleted = table.Column<Guid>(nullable: true),
                     PostId = table.Column<Guid>(nullable: true),
                     Age = table.Column<int>(nullable: true),
                     Name = table.Column<string>(nullable: true)
