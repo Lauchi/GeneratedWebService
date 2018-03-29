@@ -1,15 +1,23 @@
+using System.Threading.Tasks;
+
 namespace AsyncHost
 {
     internal interface IRowVersionRepository
     {
-        long GetUserCreateVersion();
+        long GetVersion<T>();
+        Task SaveVersion<T>();
     }
 
     class RowVersionRepository : IRowVersionRepository
     {
-        public long GetUserCreateVersion()
+        public long GetVersion<T>()
         {
             return 20;
+        }
+
+        public Task SaveVersion<T>()
+        {
+            return Task.FromResult(true);
         }
     }
 }

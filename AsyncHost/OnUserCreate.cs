@@ -11,6 +11,7 @@ namespace AsyncHost
         private readonly IUserRepository _userRepository;
         private readonly IEventStoreRepository _eventStoreRepository;
         private readonly IRowVersionRepository _rowVersionRepository;
+        public OnUserCreateEventAsynchronousHook AsyncHook { get; }
 
         public OnUserCreate(IUserRepository userRepository, IEventStoreRepository eventStoreRepository, IRowVersionRepository rowVersionRepository, OnUserCreateEventAsynchronousHook asyncHook)
         {
@@ -22,23 +23,25 @@ namespace AsyncHost
 
         public async Task Run()
         {
-            long lastRowVersion = _rowVersionRepository.GetUserCreateVersion();
-            var userCreateEvents = await _eventStoreRepository.GetEvents<UserCreateEvent>(lastRowVersion);
+            long lastRowVersion = _rowVersionRepository.GetVersion<UserCreateEvent>();
+            var userCreateEvents = await _eventStoreRepository.GetEventsSince<UserCreateEvent>(lastRowVersion);
             foreach (var eve in userCreateEvents)
             {
                 var createEvent = (UserCreateEvent) eve;
                 var user = await _userRepository.GetUser(createEvent.Id);
                 var userCreateEvent = new UserCreateEvent(user, createEvent.EntityId);
                 var hookResult = AsyncHook.Execute(userCreateEvent);
-                if (!hookResult.Ok)
+                if (hookResult.Ok)
+                {
+                    await _rowVersionRepository.SaveVersion<UserCreateEvent>();
+                }
+                else
                 {
                     throw new AsyncHookBlockedException();
                 }
             }
             var users = await _userRepository.GetUsers();
-            Debug.WriteLine($"USer Count: {users.Count}");
+            Debug.WriteLine($"User Count: {users.Count}");
         }
-
-        public OnUserCreateEventAsynchronousHook AsyncHook { get; }
     }
 }
