@@ -28,6 +28,7 @@ namespace AsyncHost
                     Configuration.GetConnectionString("HangfireDatabase"), options))
                 .AddTransient<OnUserCreateEventHandler>()
                 .AddTransient<EventStoreContext>()
+                .AddTransient<OnUserCreateEventHandler>()
                 .AddTransient<IUserRepository, UserRepository>()
                 .AddMvc();
         }
