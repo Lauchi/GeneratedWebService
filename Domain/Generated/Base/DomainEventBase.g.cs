@@ -30,5 +30,9 @@ namespace Domain
             this.Id = Guid.NewGuid();
             this.CreatedAt = Stopwatch.GetTimestamp();
         }
+        
+        private DomainEventBase()
+        {
+        }
     }
 }

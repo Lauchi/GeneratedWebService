@@ -23,9 +23,7 @@ namespace SqlAdapter
     {
         
         public DbSet<DomainEventBase> EventHistory { get; private set; }
-
-        public DbSet<EntityRowVersion> RowVersions { get; private set; }
-
+        
         public DbSet<User> Users { get; private set; }
         
         public DbSet<UserUpdateAgeEvent> UserUpdateAgeEvents { get; private set; }
@@ -39,7 +37,9 @@ namespace SqlAdapter
         public DbSet<Post> Posts { get; private set; }
         
         public DbSet<PostCreateEvent> PostCreateEvents { get; private set; }
-        
+
+        public DbSet<EntityRowVersion> RowVersions { get; set; }
+
         public EventStoreContext(DbContextOptions<EventStoreContext> options) : 
                 base(options)
         {

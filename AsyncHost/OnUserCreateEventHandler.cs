@@ -20,13 +20,11 @@ namespace AsyncHost
             _eventStoreRepository = eventStoreRepository;
             _rowVersionRepository = rowVersionRepository;
             AsyncHook = asyncHook;
-
-            RecurringJob.AddOrUpdate(() => Run(), Cron.Minutely);
         }
 
         public async Task Run()
         {
-            long lastRowVersion = _rowVersionRepository.GetVersion<UserCreateEvent>();
+            var lastRowVersion = _rowVersionRepository.GetVersion<UserCreateEvent>();
             var userCreateEvents = await _eventStoreRepository.GetEventsSince<UserCreateEvent>(lastRowVersion);
             foreach (var eve in userCreateEvents)
             {
@@ -36,7 +34,7 @@ namespace AsyncHost
                 var hookResult = AsyncHook.Execute(userCreateEvent);
                 if (hookResult.Ok)
                 {
-                    _rowVersionRepository.SaveVersion<UserCreateEvent>(createEvent.CreatedAt);
+                    await _rowVersionRepository.SaveVersion<UserCreateEvent>(createEvent.CreatedAt);
                 }
                 else
                 {
