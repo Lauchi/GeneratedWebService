@@ -7,7 +7,7 @@ namespace AsyncHost
     public interface IRowVersionRepository
     {
         long GetVersion<T>();
-        Task SaveVersion<T>(long lastRowVersion);
+        void SaveVersion<T>(long lastRowVersion);
     }
 
     class RowVersionRepository : IRowVersionRepository
