@@ -23,11 +23,12 @@ namespace AsyncHost
         public async Task Run()
         {
             long lastRowVersion = _rowVersionRepository.GetUserCreateVersion();
-            var userCreateEvents = _eventStoreRepository.GetUserCreateEvents(lastRowVersion);
+            var userCreateEvents = await _eventStoreRepository.GetEvents<UserCreateEvent>(lastRowVersion);
             foreach (var eve in userCreateEvents)
             {
-                var user = await _userRepository.GetUser(eve.Id);
-                var userCreateEvent = new UserCreateEvent(user, eve.EntityId);
+                var createEvent = (UserCreateEvent) eve;
+                var user = await _userRepository.GetUser(createEvent.Id);
+                var userCreateEvent = new UserCreateEvent(user, createEvent.EntityId);
                 var hookResult = AsyncHook.Execute(userCreateEvent);
                 if (!hookResult.Ok)
                 {

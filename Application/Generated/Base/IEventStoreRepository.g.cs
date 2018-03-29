@@ -23,5 +23,7 @@ namespace Application
         Task AddEvents(List<DomainEventBase>  domainEvents);
 
         List<UserCreateEvent> GetUserCreateEvents(long rowVersion);
+
+        Task<List<DomainEventBase>> GetEvents<T>(long rowVersion);
     }
 }
