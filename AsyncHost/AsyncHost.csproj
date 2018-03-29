@@ -12,7 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Hangfire" Version="1.6.17" />
-    <PackageReference Include="Hangfire.SQLite.Core" Version="1.0.2" />
+    <PackageReference Include="Hangfire.SQLite" Version="1.4.2" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.108" />
   </ItemGroup>

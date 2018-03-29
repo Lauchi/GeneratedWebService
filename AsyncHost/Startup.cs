@@ -1,9 +1,7 @@
-using System;
 using Application.Users;
 using Hangfire;
-using Hangfire.SqlServer;
+using Hangfire.SQLite;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Razor.Language.Intermediate;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SqlAdapter;
@@ -22,10 +20,9 @@ namespace AsyncHost
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var options = new SqlServerStorageOptions();
+            var options = new SQLiteStorageOptions();
             services.AddHangfire(configuration =>
-                GlobalConfiguration.Configuration.UseSqlServerStorage(
-                    Configuration.GetConnectionString("HangfireDatabase"), options))
+                GlobalConfiguration.Configuration.UseSQLiteStorage("Data Source=Hangfire.db;", options))
                 .AddTransient<OnUserCreateEventHandler>()
                 .AddTransient<EventStoreContext>()
                 .AddTransient<OnUserCreateEventHandler>()
