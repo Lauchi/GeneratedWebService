@@ -22,6 +22,6 @@ namespace Application
         
         Task AddEvents(List<DomainEventBase>  domainEvents);
 
-        Task<List<DomainEventBase>> GetEvents<T>(long rowVersion);
+        Task<List<DomainEventBase>> GetEventsSince<T>(long rowVersion);
     }
 }
