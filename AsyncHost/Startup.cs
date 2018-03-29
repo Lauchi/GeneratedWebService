@@ -13,11 +13,12 @@ namespace AsyncHost
 {
     public class Startup
     {
-        private OnUserCreate onUserCreate;
+        private readonly OnUserCreateEventHandler _onUserCreateEventHandler;
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, OnUserCreateEventHandler onUserCreateEventHandler)
         {
             Configuration = configuration;
+            _onUserCreateEventHandler = onUserCreateEventHandler;
         }
 
         public IConfiguration Configuration { get; }
@@ -28,7 +29,7 @@ namespace AsyncHost
             services.AddHangfire(configuration =>
                 GlobalConfiguration.Configuration.UseSqlServerStorage(
                     Configuration.GetConnectionString("HangfireDatabase"), options))
-                .AddTransient<OnUserCreate>()
+                .AddTransient<OnUserCreateEventHandler>()
                 .AddTransient<EventStoreContext>()
                 .AddTransient<IUserRepository, UserRepository>()
                 .AddMvc();
@@ -40,7 +41,7 @@ namespace AsyncHost
             app.UseHangfireServer(option);
             app.UseHangfireDashboard();
 
-            RecurringJob.AddOrUpdate(() => onUserCreate.Run(), Cron.Minutely);
+            RecurringJob.AddOrUpdate(() => _onUserCreateEventHandler.Run(), Cron.Minutely);
             app.UseMvc();
         }
     }

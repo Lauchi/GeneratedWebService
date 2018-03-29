@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 
 namespace AsyncHost
 {
-    internal interface IRowVersionRepository
+    public interface IRowVersionRepository
     {
         long GetVersion<T>();
         Task SaveVersion<T>();

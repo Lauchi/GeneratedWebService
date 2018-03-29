@@ -3,7 +3,7 @@ using Domain.Users;
 
 namespace AsyncHost
 {
-    internal class OnUserCreateEventAsynchronousHook
+    public class OnUserCreateEventAsynchronousHook
     {
         public HookResult Execute(UserCreateEvent eve)
         {

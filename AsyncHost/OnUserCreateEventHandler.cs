@@ -6,14 +6,14 @@ using Domain.Users;
 
 namespace AsyncHost
 {
-    internal class OnUserCreate
+    public class OnUserCreateEventHandler
     {
         private readonly IUserRepository _userRepository;
         private readonly IEventStoreRepository _eventStoreRepository;
         private readonly IRowVersionRepository _rowVersionRepository;
         public OnUserCreateEventAsynchronousHook AsyncHook { get; }
 
-        public OnUserCreate(IUserRepository userRepository, IEventStoreRepository eventStoreRepository, IRowVersionRepository rowVersionRepository, OnUserCreateEventAsynchronousHook asyncHook)
+        public OnUserCreateEventHandler(IUserRepository userRepository, IEventStoreRepository eventStoreRepository, IRowVersionRepository rowVersionRepository, OnUserCreateEventAsynchronousHook asyncHook)
         {
             _userRepository = userRepository;
             _eventStoreRepository = eventStoreRepository;
