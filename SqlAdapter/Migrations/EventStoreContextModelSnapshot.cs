@@ -71,6 +71,18 @@ namespace SqlAdapter.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("SqlAdapter.Generated.Base.EntityRowVersion", b =>
+                {
+                    b.Property<string>("EventType")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<long>("LastRowVersion");
+
+                    b.HasKey("EventType");
+
+                    b.ToTable("RowVersions");
+                });
+
             modelBuilder.Entity("Domain.Posts.PostCreateEvent", b =>
                 {
                     b.HasBaseType("Domain.DomainEventBase");

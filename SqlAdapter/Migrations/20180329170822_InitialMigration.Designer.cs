@@ -12,7 +12,7 @@ using System;
 namespace SqlAdapter.Migrations
 {
     [DbContext(typeof(EventStoreContext))]
-    [Migration("20180328202326_InitialMigration")]
+    [Migration("20180329170822_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -70,6 +70,18 @@ namespace SqlAdapter.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("SqlAdapter.Generated.Base.EntityRowVersion", b =>
+                {
+                    b.Property<string>("EventType")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<long>("LastRowVersion");
+
+                    b.HasKey("EventType");
+
+                    b.ToTable("RowVersions");
                 });
 
             modelBuilder.Entity("Domain.Posts.PostCreateEvent", b =>

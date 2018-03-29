@@ -8,6 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using SqlAdapter.Generated.Base;
+
 namespace SqlAdapter
 {
     using System;
