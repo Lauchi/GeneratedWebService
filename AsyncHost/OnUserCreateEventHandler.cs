@@ -36,7 +36,7 @@ namespace AsyncHost
                 var hookResult = AsyncHook.Execute(userCreateEvent);
                 if (hookResult.Ok)
                 {
-                    await _rowVersionRepository.SaveVersion<UserCreateEvent>();
+                    await _rowVersionRepository.SaveVersion<UserCreateEvent>(TODO);
                 }
                 else
                 {

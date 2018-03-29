@@ -29,6 +29,7 @@ namespace AsyncHost
                 .AddTransient<OnUserCreateEventHandler>()
                 .AddTransient<EventStoreContext>()
                 .AddTransient<OnUserCreateEventHandler>()
+                .AddTransient<IRowVersionRepository, RowVersionRepository>()
                 .AddTransient<IUserRepository, UserRepository>()
                 .AddMvc();
         }
