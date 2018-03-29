@@ -8,8 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using SqlAdapter.Generated.Base;
-
 namespace SqlAdapter
 {
     using System;
@@ -22,8 +20,6 @@ namespace SqlAdapter
     public class HangfireContext : DbContext
     {
         public DbSet<DomainEventBase> EventQueue { get; private set; }
-
-        public DbSet<EntityRowVersion> RowVersions { get; set; }
 
         public DbSet<UserUpdateAgeEvent> UserUpdateAgeEvents { get; private set; }
 

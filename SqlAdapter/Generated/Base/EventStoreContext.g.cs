@@ -8,8 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using SqlAdapter.Generated.Base;
-
 namespace SqlAdapter
 {
     using System;
@@ -37,7 +35,7 @@ namespace SqlAdapter
         public DbSet<Post> Posts { get; private set; }
         
         public DbSet<PostCreateEvent> PostCreateEvents { get; private set; }
-
+        
         public EventStoreContext(DbContextOptions<EventStoreContext> options) : 
                 base(options)
         {

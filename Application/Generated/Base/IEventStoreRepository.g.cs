@@ -10,9 +10,7 @@
 
 namespace Application
 {
-    using System;
     using Domain;
-    using Domain.Users;
     using System.Threading.Tasks;
     using System.Collections.Generic;
     
@@ -21,8 +19,6 @@ namespace Application
     {
         
         Task AddEvents(List<DomainEventBase>  domainEvents);
-
-        Task<List<DomainEventBase>> GetEventsSince<T>(long rowVersion);
 
         Task<List<DomainEventBase>> GetEventsInQueue<T>();
 

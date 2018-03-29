@@ -25,7 +25,7 @@ namespace SqlAdapter.Migrations.Hangfire
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<long>("CreatedAt");
+                    b.Property<DateTimeOffset>("CreatedAt");
 
                     b.Property<string>("Discriminator")
                         .IsRequired();
@@ -37,18 +37,6 @@ namespace SqlAdapter.Migrations.Hangfire
                     b.ToTable("EventQueue");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("DomainEventBase");
-                });
-
-            modelBuilder.Entity("SqlAdapter.Generated.Base.EntityRowVersion", b =>
-                {
-                    b.Property<string>("EventType")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<long>("LastRowVersion");
-
-                    b.HasKey("EventType");
-
-                    b.ToTable("RowVersions");
                 });
 
             modelBuilder.Entity("Domain.Posts.PostCreateEvent", b =>

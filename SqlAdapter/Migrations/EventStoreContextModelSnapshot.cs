@@ -25,7 +25,7 @@ namespace SqlAdapter.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<long>("CreatedAt");
+                    b.Property<DateTimeOffset>("CreatedAt");
 
                     b.Property<string>("Discriminator")
                         .IsRequired();

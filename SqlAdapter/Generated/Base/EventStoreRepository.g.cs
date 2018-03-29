@@ -41,13 +41,6 @@ namespace SqlAdapter
             await HangfireContext.SaveChangesAsync();
         }
 
-        public async Task<List<DomainEventBase>> GetEventsSince<T>(long rowVersion)
-        {
-            var domainEventBases = await Context.EventHistory.Where(eve => eve.GetType() == typeof(T)).ToListAsync();
-            var eventBases = domainEventBases.Where(eve => eve.CreatedAt > rowVersion).ToList();
-            return eventBases;
-        }
-
         public async Task<List<DomainEventBase>> GetEventsInQueue<T>()
         {
             var events = await HangfireContext.EventQueue.Where(eve => eve.GetType() == typeof(T)).ToListAsync();

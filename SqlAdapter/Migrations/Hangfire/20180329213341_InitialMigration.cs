@@ -13,7 +13,7 @@ namespace SqlAdapter.Migrations.Hangfire
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    CreatedAt = table.Column<long>(nullable: false),
+                    CreatedAt = table.Column<DateTimeOffset>(nullable: false),
                     Discriminator = table.Column<string>(nullable: false),
                     EntityId = table.Column<Guid>(nullable: false),
                     Deleted = table.Column<Guid>(nullable: true),
@@ -25,27 +25,12 @@ namespace SqlAdapter.Migrations.Hangfire
                 {
                     table.PrimaryKey("PK_EventQueue", x => x.Id);
                 });
-
-            migrationBuilder.CreateTable(
-                name: "RowVersions",
-                columns: table => new
-                {
-                    EventType = table.Column<string>(nullable: false),
-                    LastRowVersion = table.Column<long>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RowVersions", x => x.EventType);
-                });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "EventQueue");
-
-            migrationBuilder.DropTable(
-                name: "RowVersions");
         }
     }
 }
