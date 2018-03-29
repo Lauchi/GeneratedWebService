@@ -13,12 +13,9 @@ namespace AsyncHost
 {
     public class Startup
     {
-        private readonly OnUserCreateEventHandler _onUserCreateEventHandler;
-
-        public Startup(IConfiguration configuration, OnUserCreateEventHandler onUserCreateEventHandler)
+        public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            _onUserCreateEventHandler = onUserCreateEventHandler;
         }
 
         public IConfiguration Configuration { get; }
@@ -41,7 +38,6 @@ namespace AsyncHost
             app.UseHangfireServer(option);
             app.UseHangfireDashboard();
 
-            RecurringJob.AddOrUpdate(() => _onUserCreateEventHandler.Run(), Cron.Minutely);
             app.UseMvc();
         }
     }

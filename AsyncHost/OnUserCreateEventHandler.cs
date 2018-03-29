@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Application;
 using Application.Users;
 using Domain.Users;
+using Hangfire;
 
 namespace AsyncHost
 {
@@ -19,6 +20,8 @@ namespace AsyncHost
             _eventStoreRepository = eventStoreRepository;
             _rowVersionRepository = rowVersionRepository;
             AsyncHook = asyncHook;
+
+            RecurringJob.AddOrUpdate(() => Run(), Cron.Minutely);
         }
 
         public async Task Run()
