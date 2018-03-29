@@ -8,6 +8,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.Linq;
+using Domain.Users;
+
 namespace SqlAdapter
 {
     using System;
@@ -30,6 +33,11 @@ namespace SqlAdapter
         public async Task AddEvents(List<DomainEventBase> domainEvents)
         {
             await Context.EventHistory.AddRangeAsync(domainEvents);
+        }
+
+        public List<UserCreateEvent> GetUserCreateEvents(long rowVersion)
+        {
+            return Context.UserCreateEvents.Where(eve => eve.CreatedAt > rowVersion).ToList();
         }
     }
 }

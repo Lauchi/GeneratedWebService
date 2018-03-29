@@ -1,15 +1,20 @@
 using System;
-using System.Diagnostics;
+using Application.Users;
 using Hangfire;
 using Hangfire.SqlServer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Razor.Language.Intermediate;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SqlAdapter;
+using SqlAdapter.Users;
 
 namespace AsyncHost
 {
     public class Startup
     {
+        private OnUserCreate onUserCreate;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -22,7 +27,11 @@ namespace AsyncHost
             var options = new SqlServerStorageOptions();
             services.AddHangfire(configuration =>
                 GlobalConfiguration.Configuration.UseSqlServerStorage(
-                    Configuration.GetConnectionString("HangfireDatabase"), options)).AddMvc();
+                    Configuration.GetConnectionString("HangfireDatabase"), options))
+                .AddTransient<OnUserCreate>()
+                .AddTransient<EventStoreContext>()
+                .AddTransient<IUserRepository, UserRepository>()
+                .AddMvc();
         }
 
         public void Configure(IApplicationBuilder app)
@@ -31,13 +40,8 @@ namespace AsyncHost
             app.UseHangfireServer(option);
             app.UseHangfireDashboard();
 
-            RecurringJob.AddOrUpdate(() => Run(), Cron.Minutely);
+            RecurringJob.AddOrUpdate(() => onUserCreate.Run(), Cron.Minutely);
             app.UseMvc();
-        }
-
-        public void Run()
-        {
-            Debug.WriteLine($"Run at {DateTime.Now}");
         }
     }
 }

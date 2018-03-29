@@ -16,4 +16,14 @@
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
     <PackageReference Include="System.Data.SQLite" Version="1.0.108" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Application\Application.csproj">
+      <Project>{E1B353AF-D153-4C91-9506-2F28343E48C6}</Project>
+      <Name>Application</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SqlAdapter\SqlAdapter.csproj">
+      <Project>{0064AB71-3A4E-4F6F-9F5A-FEE8554074ED}</Project>
+      <Name>SqlAdapter</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
