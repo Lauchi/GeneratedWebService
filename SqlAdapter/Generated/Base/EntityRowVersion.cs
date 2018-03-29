@@ -16,7 +16,6 @@ namespace SqlAdapter.Generated.Base
         [Key]
         public string EventType  { get; private set; }
 
-        [Timestamp]
         public long LastRowVersion { get; set; }
     }
 }

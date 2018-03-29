@@ -28,7 +28,7 @@ namespace Domain
         {
             this.EntityId = EntityId;
             this.Id = Guid.NewGuid();
-            this.CreatedAt = Stopwatch.GetTimestamp();
+            this.CreatedAt = DateTimeOffset.Now.Ticks;
         }
         
         private DomainEventBase()

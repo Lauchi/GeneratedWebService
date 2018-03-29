@@ -19,6 +19,7 @@ namespace AsyncHost
         {
             _context = context;
         }
+
         public long GetVersion<T>()
         {
             var entityRowVersion = _context.RowVersions.SingleOrDefault(rowVersion => rowVersion.EventType == typeof(T).ToString());
@@ -27,11 +28,10 @@ namespace AsyncHost
 
         public async Task SaveVersion<T>(long lastRowVersion)
         {
-            var entityRowVersion =
-                _context.RowVersions.SingleOrDefault(rowVersion => rowVersion.EventType == typeof(T).ToString());
+            var entityRowVersion = _context.RowVersions.SingleOrDefault(rowVersion => rowVersion.EventType == typeof(T).ToString());
             if (entityRowVersion == null)
             {
-                var newRowVersion = new EntityRowVersion(typeof(T).ToString());
+                var newRowVersion = new EntityRowVersion(typeof(T).ToString()) {LastRowVersion = lastRowVersion};
                 _context.RowVersions.Add(newRowVersion);
 
             } else
