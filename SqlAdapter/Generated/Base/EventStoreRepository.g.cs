@@ -36,11 +36,6 @@ namespace SqlAdapter
             await Context.EventHistory.AddRangeAsync(domainEvents);
         }
 
-        public List<UserCreateEvent> GetUserCreateEvents(long rowVersion)
-        {
-            return Context.UserCreateEvents.Where(eve => eve.CreatedAt > rowVersion).ToList();
-        }
-
         public Task<List<DomainEventBase>> GetEvents<T>(long rowVersion)
         {
             var eventsForT = Context.EventHistory.Where(eve => eve.GetType() == typeof(T)).ToListAsync();
