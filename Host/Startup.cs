@@ -20,6 +20,7 @@ namespace Host
         {
             GeneratedDependencies.ConfigureGeneratedServices(services);
             services.AddDbContext<EventStoreContext>(option => option.UseSqlite(Configuration.GetConnectionString("EventStoreDatabase")));
+            services.AddDbContext<HangfireContext>(option => option.UseSqlite(Configuration.GetConnectionString("HangfireDatabase")));
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

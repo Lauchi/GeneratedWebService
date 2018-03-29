@@ -19,26 +19,23 @@ namespace SqlAdapter
     using Domain.Posts;
     
     
-    public class EventStoreContext : DbContext
+    public class HangfireContext : DbContext
     {
-        
-        public DbSet<DomainEventBase> EventHistory { get; private set; }
-        
-        public DbSet<User> Users { get; private set; }
-        
+        public DbSet<DomainEventBase> EventQueue { get; private set; }
+
+        public DbSet<EntityRowVersion> RowVersions { get; set; }
+
         public DbSet<UserUpdateAgeEvent> UserUpdateAgeEvents { get; private set; }
-        
+
         public DbSet<UserUpdateNameEvent> UserUpdateNameEvents { get; private set; }
-        
+
         public DbSet<UserAddPostEvent> UserAddPostEvents { get; private set; }
-        
+
         public DbSet<UserCreateEvent> UserCreateEvents { get; private set; }
-        
-        public DbSet<Post> Posts { get; private set; }
-        
+
         public DbSet<PostCreateEvent> PostCreateEvents { get; private set; }
 
-        public EventStoreContext(DbContextOptions<EventStoreContext> options) : 
+        public HangfireContext(DbContextOptions<HangfireContext> options) : 
                 base(options)
         {
         }

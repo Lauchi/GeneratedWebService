@@ -27,18 +27,6 @@ namespace SqlAdapter.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RowVersions",
-                columns: table => new
-                {
-                    EventType = table.Column<string>(nullable: false),
-                    LastRowVersion = table.Column<long>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RowVersions", x => x.EventType);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -84,9 +72,6 @@ namespace SqlAdapter.Migrations
 
             migrationBuilder.DropTable(
                 name: "Posts");
-
-            migrationBuilder.DropTable(
-                name: "RowVersions");
 
             migrationBuilder.DropTable(
                 name: "Users");

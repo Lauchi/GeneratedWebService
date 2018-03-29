@@ -26,10 +26,10 @@ namespace AsyncHost
         {
             var options = new SQLiteStorageOptions();
             services.AddDbContext<EventStoreContext>(option => option.UseSqlite(Configuration.GetConnectionString("EventStoreDatabase")));
+            services.AddDbContext<HangfireContext>(option => option.UseSqlite(Configuration.GetConnectionString("HangfireDatabase")));
             services.AddHangfire(configuration =>
-                    GlobalConfiguration.Configuration.UseSQLiteStorage("Data Source=Hangfire.db;", options))
+                    GlobalConfiguration.Configuration.UseSQLiteStorage(Configuration.GetConnectionString("HangfireDatabase"), options))
                 .AddTransient<IEventStoreRepository, EventStoreRepository>()
-                .AddTransient<IRowVersionRepository, RowVersionRepository>()
                 .AddTransient<IUserRepository, UserRepository>()
                 .AddTransient<OnUserCreateEventHandler>()
                 .AddTransient<OnUserCreateEventAsynchronousHook>()

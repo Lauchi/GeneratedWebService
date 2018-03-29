@@ -9,10 +9,10 @@ using Microsoft.EntityFrameworkCore.ValueGeneration;
 using SqlAdapter;
 using System;
 
-namespace SqlAdapter.Migrations
+namespace SqlAdapter.Migrations.Hangfire
 {
-    [DbContext(typeof(EventStoreContext))]
-    partial class EventStoreContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(HangfireContext))]
+    partial class HangfireContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -34,41 +34,21 @@ namespace SqlAdapter.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EventHistory");
+                    b.ToTable("EventQueue");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("DomainEventBase");
                 });
 
-            modelBuilder.Entity("Domain.Posts.Post", b =>
+            modelBuilder.Entity("SqlAdapter.Generated.Base.EntityRowVersion", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<string>("EventType")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Body");
+                    b.Property<long>("LastRowVersion");
 
-                    b.Property<string>("Title");
+                    b.HasKey("EventType");
 
-                    b.Property<Guid?>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Posts");
-                });
-
-            modelBuilder.Entity("Domain.Users.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("Age");
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
+                    b.ToTable("RowVersions");
                 });
 
             modelBuilder.Entity("Domain.Posts.PostCreateEvent", b =>
@@ -124,13 +104,6 @@ namespace SqlAdapter.Migrations
                     b.ToTable("UserUpdateNameEvent");
 
                     b.HasDiscriminator().HasValue("UserUpdateNameEvent");
-                });
-
-            modelBuilder.Entity("Domain.Posts.Post", b =>
-                {
-                    b.HasOne("Domain.Users.User")
-                        .WithMany("Posts")
-                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }

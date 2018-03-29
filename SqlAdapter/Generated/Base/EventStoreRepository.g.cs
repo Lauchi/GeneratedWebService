@@ -25,15 +25,20 @@ namespace SqlAdapter
     {
         
         public EventStoreContext Context { get; private set; }
-        
-        public EventStoreRepository(EventStoreContext Context)
+        public HangfireContext HangfireContext { get; }
+
+        public EventStoreRepository(EventStoreContext Context, HangfireContext hangfireContext)
         {
             this.Context = Context;
+            HangfireContext = hangfireContext;
         }
         
         public async Task AddEvents(List<DomainEventBase> domainEvents)
         {
             await Context.EventHistory.AddRangeAsync(domainEvents);
+            await HangfireContext.EventQueue.AddRangeAsync(domainEvents);
+            await Context.SaveChangesAsync();
+            await HangfireContext.SaveChangesAsync();
         }
 
         public async Task<List<DomainEventBase>> GetEventsSince<T>(long rowVersion)
@@ -41,6 +46,18 @@ namespace SqlAdapter
             var domainEventBases = await Context.EventHistory.Where(eve => eve.GetType() == typeof(T)).ToListAsync();
             var eventBases = domainEventBases.Where(eve => eve.CreatedAt > rowVersion).ToList();
             return eventBases;
+        }
+
+        public async Task<List<DomainEventBase>> GetEventsInQueue<T>()
+        {
+            var events = await HangfireContext.EventQueue.Where(eve => eve.GetType() == typeof(T)).ToListAsync();
+            return events;
+        }
+
+        public async Task RemoveEventsFromQueue(List<DomainEventBase> events)
+        {
+            HangfireContext.EventQueue.RemoveRange(events);
+            await HangfireContext.SaveChangesAsync();
         }
     }
 }
