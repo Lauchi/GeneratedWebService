@@ -1,37 +1,37 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Application;
 using Domain;
 using Domain.Users;
+using SqlAdapter;
 
 namespace AsyncHost
 {
     public class SendBirthdayMailEventHandler
     {
-        private readonly IEventStoreRepository _eventStoreRepository;
+        private readonly IHangfireQueue _hangfireQueue;
         public SendBirthdayMailAsyncHook AsyncHook { get; }
 
-        public SendBirthdayMailEventHandler(IEventStoreRepository eventStoreRepository, SendBirthdayMailAsyncHook asyncHook)
+        public SendBirthdayMailEventHandler(IHangfireQueue hangfireQueue, SendBirthdayMailAsyncHook asyncHook)
         {
-            _eventStoreRepository = eventStoreRepository;
+            _hangfireQueue = hangfireQueue;
             AsyncHook = asyncHook;
         }
 
         public async Task Run()
         {
-            var userCreateEvents = await _eventStoreRepository.GetEventsInQueue<UserUpdateNameEvent>();
-            var handledEvents = new List<DomainEventBase>();
+            var userCreateEvents = await _hangfireQueue.GetEvents("SendBirthdayMail");
+            var handledEvents = new List<EventAndJob>();
             foreach (var eve in userCreateEvents)
             {
-                var updateEvent = (UserUpdateNameEvent) eve;
+                var updateEvent = (UserUpdateNameEvent) eve.DomainEvent;
                 var hookResult = AsyncHook.Execute(updateEvent);
                 if (hookResult.Ok)
                 {
-                    handledEvents.Add(updateEvent);
+                    handledEvents.Add(eve);
                 }
             }
 
-            await _eventStoreRepository.RemoveEventsFromQueue(handledEvents);
+            await _hangfireQueue.RemoveEventsFromQueue(handledEvents);
         }
     }
 }

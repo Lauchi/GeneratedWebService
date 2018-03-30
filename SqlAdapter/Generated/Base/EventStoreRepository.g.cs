@@ -8,10 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.Linq;
-using Domain.Users;
-using Microsoft.EntityFrameworkCore;
-
 namespace SqlAdapter
 {
     using System;
@@ -25,32 +21,30 @@ namespace SqlAdapter
     {
         
         public EventStoreContext Context { get; private set; }
-        public HangfireContext HangfireContext { get; }
+        public IHangfireQueue HangfireQueue { get; }
 
-        public EventStoreRepository(EventStoreContext Context, HangfireContext hangfireContext)
+        public EventStoreRepository(EventStoreContext Context, IHangfireQueue hangfireQueue)
         {
             this.Context = Context;
-            HangfireContext = hangfireContext;
+            HangfireQueue = hangfireQueue;
         }
         
         public async Task AddEvents(List<DomainEventBase> domainEvents)
         {
             await Context.EventHistory.AddRangeAsync(domainEvents);
-            await HangfireContext.EventQueue.AddRangeAsync(domainEvents);
+            await HangfireQueue.AddEvents(domainEvents);
             await Context.SaveChangesAsync();
-            await HangfireContext.SaveChangesAsync();
         }
+    }
 
-        public async Task<List<DomainEventBase>> GetEventsInQueue<T>()
+    public class EventTuple
+    {
+        public EventTuple(string domainType, string jobName)
         {
-            var events = await HangfireContext.EventQueue.Where(eve => eve.GetType() == typeof(T)).ToListAsync();
-            return events;
+            JobName = jobName;
+            DomainType = domainType;
         }
-
-        public async Task RemoveEventsFromQueue(List<DomainEventBase> events)
-        {
-            HangfireContext.EventQueue.RemoveRange(events);
-            await HangfireContext.SaveChangesAsync();
-        }
+        public string JobName { get; set; }
+        public string DomainType { get; set; }
     }
 }
