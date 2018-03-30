@@ -4,9 +4,9 @@ using Domain.Users;
 
 namespace AsyncHost
 {
-    public class OnUserCreateEventAsynchronousHook
+    public class SendBirthdayMailAsyncHook
     {
-        public HookResult Execute(UserCreateEvent eve)
+        public HookResult Execute(UserUpdateNameEvent eve)
         {
             Console.WriteLine($"Neuer User Event abgearbeitet {eve.EntityId}");
             return HookResult.OkResult();

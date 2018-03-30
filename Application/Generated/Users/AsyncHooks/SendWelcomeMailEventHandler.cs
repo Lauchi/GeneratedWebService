@@ -1,21 +1,18 @@
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
-using Application;
-using Application.Users;
+using AsyncHost;
 using Domain;
 using Domain.Users;
-using Hangfire;
 
-namespace AsyncHost
+namespace Application.Users.AsyncHooks
 {
-    public class OnUserCreateEventHandler
+    public class SendWelcomeMailEventHandler
     {
         private readonly IUserRepository _userRepository;
         private readonly IEventStoreRepository _eventStoreRepository;
-        public OnUserCreateEventAsynchronousHook AsyncHook { get; }
+        public SendWelcomeMailAsyncHook AsyncHook { get; }
 
-        public OnUserCreateEventHandler(IUserRepository userRepository, IEventStoreRepository eventStoreRepository, OnUserCreateEventAsynchronousHook asyncHook)
+        public SendWelcomeMailEventHandler(IUserRepository userRepository, IEventStoreRepository eventStoreRepository, SendWelcomeMailAsyncHook asyncHook)
         {
             _userRepository = userRepository;
             _eventStoreRepository = eventStoreRepository;

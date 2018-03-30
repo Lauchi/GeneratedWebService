@@ -1,7 +1,3 @@
-using System;
-using System.ComponentModel;
-using Application;
-using Application.Users;
 using Hangfire;
 using Hangfire.SQLite;
 using Microsoft.AspNetCore.Builder;
@@ -9,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SqlAdapter;
-using SqlAdapter.Users;
 
 namespace AsyncHost
 {
@@ -24,26 +19,19 @@ namespace AsyncHost
 
         public void ConfigureServices(IServiceCollection services)
         {
+            GeneratedDependencies.ConfigureGeneratedServices(services);
             var options = new SQLiteStorageOptions();
             services.AddDbContext<EventStoreContext>(option => option.UseSqlite(Configuration.GetConnectionString("EventStoreDatabase")));
             services.AddDbContext<HangfireContext>(option => option.UseSqlite(Configuration.GetConnectionString("HangfireDatabase")));
             services.AddHangfire(configuration =>
                     GlobalConfiguration.Configuration.UseSQLiteStorage(Configuration.GetConnectionString("HangfireDatabase"), options))
-                .AddTransient<IEventStoreRepository, EventStoreRepository>()
-                .AddTransient<IUserRepository, UserRepository>()
-                .AddTransient<OnUserCreateEventHandler>()
-                .AddTransient<OnUserCreateEventAsynchronousHook>()
                 .AddMvc();
+            
         }
 
         public void Configure(IApplicationBuilder app)
         {
-            var option = new BackgroundJobServerOptions {WorkerCount = 1};
-            app.UseHangfireServer(option);
-            app.UseHangfireDashboard();
-
-            RecurringJob.AddOrUpdate<OnUserCreateEventHandler>(handler => handler.Run(), Cron.Minutely());
-
+            GeneratedDependencies.ConfigureApplication(app);
             app.UseMvc();
         }
     }
