@@ -21,30 +21,15 @@ namespace SqlAdapter
     {
         
         public EventStoreContext Context { get; private set; }
-        public IHangfireQueue HangfireQueue { get; }
-
-        public EventStoreRepository(EventStoreContext Context, IHangfireQueue hangfireQueue)
+        
+        public EventStoreRepository(EventStoreContext Context)
         {
             this.Context = Context;
-            HangfireQueue = hangfireQueue;
         }
         
         public async Task AddEvents(List<DomainEventBase> domainEvents)
         {
             await Context.EventHistory.AddRangeAsync(domainEvents);
-            await HangfireQueue.AddEvents(domainEvents);
-            await Context.SaveChangesAsync();
         }
-    }
-
-    public class EventTuple
-    {
-        public EventTuple(string domainType, string jobName)
-        {
-            JobName = jobName;
-            DomainType = domainType;
-        }
-        public string JobName { get; set; }
-        public string DomainType { get; set; }
     }
 }

@@ -30,6 +30,7 @@ namespace AsyncHost
         {
             collection.AddTransient<IEventStore, EventStore>();
             collection.AddTransient<IEventStoreRepository, EventStoreRepository>();
+            collection.AddTransient<IHangfireQueue, HangfireQueue>();
             collection.AddTransient<IUserRepository, UserRepository>();
             collection.AddTransient<IPostRepository, PostRepository>();
             collection.AddTransient<SendWelcomeMailEventHandler>();

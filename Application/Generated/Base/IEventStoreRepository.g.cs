@@ -19,6 +19,6 @@ namespace Application
     public interface IEventStoreRepository
     {
         
-        Task AddEvents(List<DomainEventBase>  domainEvents);
+        Task AddEvents(List<DomainEventBase> domainEvents);
     }
 }
