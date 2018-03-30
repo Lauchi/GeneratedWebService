@@ -10,6 +10,7 @@
 
 namespace Application
 {
+    using System;
     using Domain;
     using System.Threading.Tasks;
     using System.Collections.Generic;
@@ -19,9 +20,9 @@ namespace Application
     {
         
         Task AddEvents(List<DomainEventBase>  domainEvents);
-
-        Task<List<DomainEventBase>> GetEventsInQueue<T>();
-
+        
         Task RemoveEventsFromQueue(List<DomainEventBase> events);
+        
+        Task<List<DomainEventBase>> GetEventsInQueue<T>();
     }
 }
