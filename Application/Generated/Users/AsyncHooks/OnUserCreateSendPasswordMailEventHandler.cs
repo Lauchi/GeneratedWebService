@@ -4,13 +4,13 @@ using Domain.Users;
 
 namespace Application.Users.AsyncHooks
 {
-    public class SendWelcomeMailEventHandler
+    public class OnUserCreateSendPasswordMailEventHandler
     {
         private readonly IUserRepository _userRepository;
         private readonly IHangfireQueue _hangfireQueue;
-        public SendWelcomeMailAsyncHook AsyncHook { get; }
+        public OnUserCreateSendPasswordMailAsyncHook AsyncHook { get; }
 
-        public SendWelcomeMailEventHandler(IUserRepository userRepository, IHangfireQueue hangfireQueue, SendWelcomeMailAsyncHook asyncHook)
+        public OnUserCreateSendPasswordMailEventHandler(IUserRepository userRepository, IHangfireQueue hangfireQueue, OnUserCreateSendPasswordMailAsyncHook asyncHook)
         {
             _userRepository = userRepository;
             _hangfireQueue = hangfireQueue;
@@ -19,7 +19,7 @@ namespace Application.Users.AsyncHooks
 
         public async Task Run()
         {
-            var userCreateEvents = await _hangfireQueue.GetEvents("SendWelcomeMail");
+            var userCreateEvents = await _hangfireQueue.GetEvents("SendPasswordMail");
             var handledEvents = new List<EventAndJob>();
             foreach (var eve in userCreateEvents)
             {

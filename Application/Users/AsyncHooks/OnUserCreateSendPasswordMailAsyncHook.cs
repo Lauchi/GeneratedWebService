@@ -13,15 +13,15 @@ namespace Application.Users.AsyncHooks
     using System;
     using System.Collections.Generic;
     using Domain.Users;
-
-
-    public class SendPasswordMailAsyncHook
+    
+    
+    public class OnUserCreateSendPasswordMailAsyncHook
     {
-
+        
         public HookResult Execute(UserCreateEvent domainEvent)
         {
-            Console.WriteLine("SendPasswordMailAsyncHook done");
-            return HookResult.OkResult();
+            Console.WriteLine("ERROR: The generated Async Domain Hook Method SendPasswordMail that is not implemented was called, aborting...");
+            return HookResult.ErrorResult(new List<string>());
         }
     }
 }

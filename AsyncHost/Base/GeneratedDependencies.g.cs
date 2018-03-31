@@ -34,12 +34,12 @@ namespace AsyncHost
             collection.AddTransient<IHangfireQueue, HangfireQueue>();
             collection.AddTransient<IUserRepository, UserRepository>();
             collection.AddTransient<IPostRepository, PostRepository>();
-            collection.AddTransient<SendWelcomeMailEventHandler>();
-            collection.AddTransient<SendWelcomeMailAsyncHook>();
-            collection.AddTransient<SendPasswordMailEventHandler>();
-            collection.AddTransient<SendPasswordMailAsyncHook>();
-            collection.AddTransient<SendBirthdayMailEventHandler>();
-            collection.AddTransient<SendBirthdayMailAsyncHook>();
+            collection.AddTransient<OnUserCreateSendWelcomeMailEventHandler>();
+            collection.AddTransient<OnUserCreateSendWelcomeMailAsyncHook>();
+            collection.AddTransient<OnUserCreateSendPasswordMailEventHandler>();
+            collection.AddTransient<OnUserCreateSendPasswordMailAsyncHook>();
+            collection.AddTransient<OnUserUpdateAgeSendBirthdayMailEventHandler>();
+            collection.AddTransient<OnUserUpdateAgeSendBirthdayMailAsyncHook>();
         }
         
         public static void ConfigureApplication(IApplicationBuilder app)
@@ -47,9 +47,9 @@ namespace AsyncHost
             var option = new BackgroundJobServerOptions {WorkerCount = 1};
             app.UseHangfireServer(option);
             app.UseHangfireDashboard();
-            RecurringJob.AddOrUpdate<SendWelcomeMailEventHandler>(handler => handler.Run(), Cron.Minutely());
-            RecurringJob.AddOrUpdate<SendPasswordMailEventHandler>(handler => handler.Run(), Cron.Minutely());
-            RecurringJob.AddOrUpdate<SendBirthdayMailEventHandler>(handler => handler.Run(), Cron.Minutely());
+            RecurringJob.AddOrUpdate<OnUserCreateSendWelcomeMailEventHandler>(handler => handler.Run(), Cron.Minutely());
+            RecurringJob.AddOrUpdate<OnUserCreateSendPasswordMailEventHandler>(handler => handler.Run(), Cron.Minutely());
+            RecurringJob.AddOrUpdate<OnUserUpdateAgeSendBirthdayMailEventHandler>(handler => handler.Run(), Cron.Minutely());
         }
     }
 }

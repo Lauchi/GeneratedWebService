@@ -15,13 +15,13 @@ namespace Application.Users.AsyncHooks
     using Domain.Users;
     
     
-    public class SendBirthdayMailAsyncHook
+    public class OnUserCreateSendWelcomeMailAsyncHook
     {
         
-        public HookResult Execute(UserUpdateAgeEvent domainEvent)
+        public HookResult Execute(UserCreateEvent domainEvent)
         {
-            Console.WriteLine("SendBirthdayMailAsyncHook done");
-            return HookResult.OkResult();
+            Console.WriteLine("ERROR: The generated Async Domain Hook Method SendWelcomeMail that is not implemented was called, aborting...");
+            return HookResult.ErrorResult(new List<string>());
         }
     }
 }

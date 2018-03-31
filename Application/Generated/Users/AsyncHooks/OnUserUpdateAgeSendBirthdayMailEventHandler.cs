@@ -4,12 +4,12 @@ using Domain.Users;
 
 namespace Application.Users.AsyncHooks
 {
-    public class SendBirthdayMailEventHandler
+    public class OnUserUpdateAgeSendBirthdayMailEventHandler
     {
         private readonly IHangfireQueue _hangfireQueue;
-        public SendBirthdayMailAsyncHook AsyncHook { get; }
+        public OnUserUpdateAgeSendBirthdayMailAsyncHook AsyncHook { get; }
 
-        public SendBirthdayMailEventHandler(IHangfireQueue hangfireQueue, SendBirthdayMailAsyncHook asyncHook)
+        public OnUserUpdateAgeSendBirthdayMailEventHandler(IHangfireQueue hangfireQueue, OnUserUpdateAgeSendBirthdayMailAsyncHook asyncHook)
         {
             _hangfireQueue = hangfireQueue;
             AsyncHook = asyncHook;
