@@ -28,7 +28,7 @@ namespace Domain.Users
             var creationResult = Post.Create(new PostCreateCommand("luly"));
             if (command.Name.Length > 4) {
                 Posts.Add(creationResult.CreatedEntity);
-                return ValidationResult.OkResult(new List<DomainEventBase>());
+                return ValidationResult.OkResult(new List<DomainEventBase> { new UserUpdateNameEvent(command.Name, Id) });
             }
             return ValidationResult.ErrorResult(new List<string>{"Name too short to update"});
 
