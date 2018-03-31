@@ -11,6 +11,7 @@
 namespace SqlAdapter
 {
     using Domain;
+    using Application;
     using Microsoft.EntityFrameworkCore;
     using Domain.Users;
     using Domain.Posts;

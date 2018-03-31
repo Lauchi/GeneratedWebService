@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Domain.Users;
-using SqlAdapter;
 
 namespace Application.Users.AsyncHooks
 {

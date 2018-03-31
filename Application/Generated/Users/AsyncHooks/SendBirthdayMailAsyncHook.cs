@@ -2,7 +2,7 @@ using System;
 using Application;
 using Domain.Users;
 
-namespace AsyncHost
+namespace Application.Users.AsyncHooks
 {
     public class SendBirthdayMailAsyncHook
     {

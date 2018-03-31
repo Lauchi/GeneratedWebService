@@ -1,10 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Domain;
 using Domain.Users;
-using SqlAdapter;
 
-namespace AsyncHost
+namespace Application.Users.AsyncHooks
 {
     public class SendBirthdayMailEventHandler
     {

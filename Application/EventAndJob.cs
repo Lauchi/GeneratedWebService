@@ -1,7 +1,7 @@
 using System;
 using Domain;
 
-namespace SqlAdapter
+namespace Application
 {
     public class EventAndJob
     {
