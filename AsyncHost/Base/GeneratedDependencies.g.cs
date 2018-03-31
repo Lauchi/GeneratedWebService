@@ -35,6 +35,8 @@ namespace AsyncHost
             collection.AddTransient<IPostRepository, PostRepository>();
             collection.AddTransient<SendWelcomeMailEventHandler>();
             collection.AddTransient<SendWelcomeMailAsyncHook>();
+            collection.AddTransient<SendPasswordMailEventHandler>();
+            collection.AddTransient<SendPasswordMailAsyncHook>();
             collection.AddTransient<SendBirthdayMailEventHandler>();
             collection.AddTransient<SendBirthdayMailAsyncHook>();
         }
@@ -45,6 +47,7 @@ namespace AsyncHost
             app.UseHangfireServer(option);
             app.UseHangfireDashboard();
             RecurringJob.AddOrUpdate<SendWelcomeMailEventHandler>(handler => handler.Run(), Cron.Minutely());
+            RecurringJob.AddOrUpdate<SendPasswordMailEventHandler>(handler => handler.Run(), Cron.Minutely());
             RecurringJob.AddOrUpdate<SendBirthdayMailEventHandler>(handler => handler.Run(), Cron.Minutely());
         }
     }

@@ -6,9 +6,9 @@ namespace Application.Users.AsyncHooks
 {
     public class SendBirthdayMailAsyncHook
     {
-        public HookResult Execute(UserUpdateNameEvent eve)
+        public HookResult Execute(UserUpdateAgeEvent eve)
         {
-            Console.WriteLine($"Neuer User Event abgearbeitet {eve.EntityId}");
+            Console.WriteLine($"Birthday Mail abgearbeitet {eve.EntityId}");
             return HookResult.OkResult();
         }
     }

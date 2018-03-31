@@ -21,7 +21,7 @@ namespace Application.Users.AsyncHooks
             var handledEvents = new List<EventAndJob>();
             foreach (var eve in userCreateEvents)
             {
-                var updateEvent = (UserUpdateNameEvent) eve.DomainEvent;
+                var updateEvent = (UserUpdateAgeEvent) eve.DomainEvent;
                 var hookResult = AsyncHook.Execute(updateEvent);
                 if (hookResult.Ok)
                 {

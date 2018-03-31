@@ -39,7 +39,7 @@ namespace SqlAdapter
 
         public async Task<List<EventAndJob>> GetEvents(string jobName)
         {
-            var eventList = await _context.EventAndJobQueue.Where(eve => eve.JobName == jobName).ToListAsync();
+            var eventList = await _context.EventAndJobQueue.Include(queue => queue.DomainEvent).Where(eve => eve.JobName == jobName).ToListAsync();
             return eventList;
         }
 
