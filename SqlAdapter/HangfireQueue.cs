@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application;
 using Domain;
-using Domain.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace SqlAdapter
@@ -12,21 +11,22 @@ namespace SqlAdapter
     {
         private readonly HangfireContext _context;
 
-        private List<EventTuple> RegisteredJobs = new List<EventTuple>();
+        private readonly List<EventTuple> _registeredJobs = new List<EventTuple>();
 
-        public HangfireQueue(HangfireContext context)
+        public HangfireQueue(HangfireContext context, EventJobRegistration registration)
         {
             _context = context;
-            RegisteredJobs.Add(new EventTuple(typeof(UserUpdateAgeEvent).ToString(), "SendBirthdayMail"));
-            RegisteredJobs.Add(new EventTuple(typeof(UserCreateEvent).ToString(), "SendPasswordMail"));
-            RegisteredJobs.Add(new EventTuple(typeof(UserCreateEvent).ToString(), "SendWelcomeMail"));
+            foreach (var eventJob in registration.EventJobs)
+            {
+                _registeredJobs.Add(eventJob);
+            }
         }
 
         public async Task AddEvents(List<DomainEventBase> domainEvents)
         {
             foreach (var domainEvent in domainEvents)
             {
-                var jobsThatDoEvents = RegisteredJobs.Where(tuple => domainEvent.GetType().ToString() == tuple.DomainType);
+                var jobsThatDoEvents = _registeredJobs.Where(tuple => domainEvent.GetType().ToString() == tuple.DomainType);
                 foreach (var job in jobsThatDoEvents)
                 {
                     var combination = new EventAndJob(domainEvent, job.JobName);
