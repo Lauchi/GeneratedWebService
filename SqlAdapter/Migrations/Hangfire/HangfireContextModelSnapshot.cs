@@ -20,6 +20,22 @@ namespace SqlAdapter.Migrations.Hangfire
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125");
 
+            modelBuilder.Entity("Application.EventAndJob", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("DomainEventId");
+
+                    b.Property<string>("JobName");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DomainEventId");
+
+                    b.ToTable("EventAndJobQueue");
+                });
+
             modelBuilder.Entity("Domain.DomainEventBase", b =>
                 {
                     b.Property<Guid>("Id")
@@ -34,7 +50,7 @@ namespace SqlAdapter.Migrations.Hangfire
 
                     b.HasKey("Id");
 
-                    b.ToTable("EventQueue");
+                    b.ToTable("DomainEventBase");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("DomainEventBase");
                 });
@@ -92,6 +108,13 @@ namespace SqlAdapter.Migrations.Hangfire
                     b.ToTable("UserUpdateNameEvent");
 
                     b.HasDiscriminator().HasValue("UserUpdateNameEvent");
+                });
+
+            modelBuilder.Entity("Application.EventAndJob", b =>
+                {
+                    b.HasOne("Domain.DomainEventBase", "DomainEvent")
+                        .WithMany()
+                        .HasForeignKey("DomainEventId");
                 });
 #pragma warning restore 612, 618
         }

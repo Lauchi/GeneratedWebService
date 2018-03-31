@@ -9,10 +9,10 @@ using Microsoft.EntityFrameworkCore.ValueGeneration;
 using SqlAdapter;
 using System;
 
-namespace SqlAdapter.Migrations
+namespace SqlAdapter.Migrations.Hangfire
 {
-    [DbContext(typeof(EventStoreContext))]
-    [Migration("20180329213244_InitialMigration")]
+    [DbContext(typeof(HangfireContext))]
+    [Migration("20180331091437_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,6 +20,22 @@ namespace SqlAdapter.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125");
+
+            modelBuilder.Entity("Application.EventAndJob", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<Guid?>("DomainEventId");
+
+                    b.Property<string>("JobName");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DomainEventId");
+
+                    b.ToTable("EventAndJobQueue");
+                });
 
             modelBuilder.Entity("Domain.DomainEventBase", b =>
                 {
@@ -35,41 +51,9 @@ namespace SqlAdapter.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EventHistory");
+                    b.ToTable("DomainEventBase");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("DomainEventBase");
-                });
-
-            modelBuilder.Entity("Domain.Posts.Post", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Body");
-
-                    b.Property<string>("Title");
-
-                    b.Property<Guid?>("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Posts");
-                });
-
-            modelBuilder.Entity("Domain.Users.User", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("Age");
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Domain.Posts.PostCreateEvent", b =>
@@ -127,11 +111,11 @@ namespace SqlAdapter.Migrations
                     b.HasDiscriminator().HasValue("UserUpdateNameEvent");
                 });
 
-            modelBuilder.Entity("Domain.Posts.Post", b =>
+            modelBuilder.Entity("Application.EventAndJob", b =>
                 {
-                    b.HasOne("Domain.Users.User")
-                        .WithMany("Posts")
-                        .HasForeignKey("UserId");
+                    b.HasOne("Domain.DomainEventBase", "DomainEvent")
+                        .WithMany()
+                        .HasForeignKey("DomainEventId");
                 });
 #pragma warning restore 612, 618
         }
