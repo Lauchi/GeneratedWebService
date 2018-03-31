@@ -29,5 +29,9 @@ namespace Application
             this.JobName = JobName;
             this.Id = Guid.NewGuid();
         }
+        
+        private EventAndJob()
+        {
+        }
     }
 }

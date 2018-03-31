@@ -8,20 +8,24 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Application.Users.AsyncHooks
+namespace SqlAdapter
 {
     using System;
     using System.Collections.Generic;
     using Domain.Users;
     
     
-    public class OnUserUpdateAgeSendBirthdayMailAsyncHook
+    public class EventJobRegistration
     {
         
-        public HookResult Execute(UserUpdateAgeEvent domainEvent)
+        public List<EventTuple> EventJobs { get; private set; }
+        
+        public EventJobRegistration()
         {
-            Console.WriteLine("OnUserUpdateAgeSendBirthdayMailAsyncHook done");
-            return HookResult.OkResult();
+            EventJobs = new List<EventTuple>();
+            EventJobs.Add(new EventTuple(typeof(UserCreateEvent).ToString(), "SendWelcomeMail"));
+            EventJobs.Add(new EventTuple(typeof(UserCreateEvent).ToString(), "SendPasswordMail"));
+            EventJobs.Add(new EventTuple(typeof(UserUpdateAgeEvent).ToString(), "SendBirthdayMail"));
         }
     }
 }

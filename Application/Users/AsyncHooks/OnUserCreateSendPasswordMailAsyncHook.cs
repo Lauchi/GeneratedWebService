@@ -20,8 +20,8 @@ namespace Application.Users.AsyncHooks
         
         public HookResult Execute(UserCreateEvent domainEvent)
         {
-            Console.WriteLine("ERROR: The generated Async Domain Hook Method SendPasswordMail that is not implemented was called, aborting...");
-            return HookResult.ErrorResult(new List<string>());
+            Console.WriteLine("OnUserCreateSendPasswordMailAsyncHook done");
+            return HookResult.OkResult();
         }
     }
 }
