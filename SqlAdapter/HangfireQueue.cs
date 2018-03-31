@@ -26,8 +26,8 @@ namespace SqlAdapter
         {
             foreach (var domainEvent in domainEvents)
             {
-                var jobsThatDoEvents = _registeredJobs.Where(tuple => domainEvent.GetType().ToString() == tuple.DomainType);
-                foreach (var job in jobsThatDoEvents)
+                var jobsTriggereByEvent = _registeredJobs.Where(tuple => domainEvent.GetType().ToString() == tuple.DomainType);
+                foreach (var job in jobsTriggereByEvent)
                 {
                     var combination = new EventAndJob(domainEvent, job.JobName);
                     _context.EventAndJobQueue.Add(combination);

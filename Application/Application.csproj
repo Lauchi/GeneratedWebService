@@ -21,6 +21,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.2" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Generated\Users\AsyncHooks\" />
     <Folder Include="Users\AsyncHooks\" />
     <Folder Include="Users\Hooks" />
   </ItemGroup>

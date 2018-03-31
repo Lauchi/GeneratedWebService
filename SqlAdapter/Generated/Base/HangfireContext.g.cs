@@ -10,7 +10,7 @@
 
 namespace SqlAdapter
 {
-    using Domain;
+    using System;
     using Application;
     using Microsoft.EntityFrameworkCore;
     using Domain.Users;
@@ -19,18 +19,19 @@ namespace SqlAdapter
     
     public class HangfireContext : DbContext
     {
+        
         public DbSet<EventAndJob> EventAndJobQueue { get; private set; }
-
+        
         public DbSet<UserUpdateAgeEvent> UserUpdateAgeEvents { get; private set; }
-
+        
         public DbSet<UserUpdateNameEvent> UserUpdateNameEvents { get; private set; }
-
+        
         public DbSet<UserAddPostEvent> UserAddPostEvents { get; private set; }
-
+        
         public DbSet<UserCreateEvent> UserCreateEvents { get; private set; }
-
+        
         public DbSet<PostCreateEvent> PostCreateEvents { get; private set; }
-
+        
         public HangfireContext(DbContextOptions<HangfireContext> options) : 
                 base(options)
         {
