@@ -27,20 +27,20 @@ namespace HttpAdapter.Users
     [Route("api/usersgraphl")]
     public class UserGraphlController : Controller
     {
-        private readonly EventStoreContext _context;
+        private readonly IUserRepository _userRepository;
 
         public UserCommandHandler Handler { get; private set; }
         
-        public UserGraphlController(UserCommandHandler Handler, EventStoreContext context)
+        public UserGraphlController(UserCommandHandler Handler, EventStoreContext context, IUserRepository userRepository)
         {
-            _context = context;
+            _userRepository = userRepository;
             this.Handler = Handler;
         }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] GraphQLQuery query)
         {
-            var schema = new Schema { Query = new ServiceQuery() };
+            var schema = new Schema { Query = new UserQuery(_userRepository) };
 
             var result = await new DocumentExecuter().ExecuteAsync(_ =>
             {
@@ -51,7 +51,7 @@ namespace HttpAdapter.Users
 
             if (result.Errors?.Count > 0)
             {
-                return BadRequest();
+                return new BadRequestObjectResult(result);
             }
 
             return Ok(result);
@@ -62,19 +62,25 @@ namespace HttpAdapter.Users
     {
         public UserType()
         {
-            Field(x => x.ID).Description("The Id of the Droid.");
-            Field(x => x.Name, nullable: true).Description("The name of the Droid.");
+            Field(x => x.IdToString).Description("The Id of the user.");
+            Field(x => x.Name, nullable: true).Description("The name of the user.");
+            Field(x => x.Age, nullable: true).Description("The age of the user.");
         }
     }
 
-    public class ServiceQuery : ObjectGraphType
+    public class UserQuery : ObjectGraphType
     {
-        public ServiceQuery()
+        public UserQuery(IUserRepository userRepository)
         {
             Field<UserType>(
                 "user",
-                resolve: context => User.Create(new UserCreateCommand("Simon", 15)).CreatedEntity
-            );
+                arguments: new QueryArguments(
+                    new QueryArgument<NonNullGraphType<StringGraphType>> { Name = "id", Description = "id of the user" }
+                ),
+                resolve: context =>
+                {
+                    return userRepository.GetUser(context.GetArgument<Guid>("id"));
+                });
         }
     }
 
