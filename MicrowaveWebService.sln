@@ -13,9 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqlAdapter", "SqlAdapter\Sq
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HttpAdapter", "HttpAdapter\HttpAdapter.csproj", "{27E5E3BF-FFCB-49E0-9C34-61D2ED355C0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncHost", "AsyncHost\AsyncHost.csproj", "{DB44A7A2-F6D4-441A-81BD-EB1DA03F0A27}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsyncHost", "AsyncHost\AsyncHost.csproj", "{DB44A7A2-F6D4-441A-81BD-EB1DA03F0A27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.Tests", "Application.Tests\Application.Tests.csproj", "{1A88073A-79CB-4051-9130-0912AE0935A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.Tests", "Application.Tests\Application.Tests.csproj", "{1A88073A-79CB-4051-9130-0912AE0935A1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GraphlAdapter", "GraphlAdapter\GraphlAdapter.csproj", "{71CAE656-101A-482A-93B4-8292C5210FC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{1A88073A-79CB-4051-9130-0912AE0935A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A88073A-79CB-4051-9130-0912AE0935A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A88073A-79CB-4051-9130-0912AE0935A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71CAE656-101A-482A-93B4-8292C5210FC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71CAE656-101A-482A-93B4-8292C5210FC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71CAE656-101A-482A-93B4-8292C5210FC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71CAE656-101A-482A-93B4-8292C5210FC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
