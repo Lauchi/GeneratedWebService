@@ -114,10 +114,8 @@ namespace Application.Users
                 var errorList = new List<string>();
                 var NewPost = await PostRepository.GetPost(apiCommand.NewPostId);
                 if (NewPost == null) errorList.Add($"Could not find Post for {nameof(apiCommand.NewPostId)} with ID: {id}");
-                var PostToDelete = await PostRepository.GetPost(apiCommand.PostToDeleteId);
-                if (PostToDelete == null) errorList.Add($"Could not find Post for {nameof(apiCommand.PostToDeleteId)} with ID: {id}");
                 if (errorList.Count > 0) return new NotFoundObjectResult(errorList);
-                var command = new UserAddPostCommand(NewPost, PostToDelete);
+                var command = new UserAddPostCommand(NewPost);
                 var validationResult = entity.AddPost(command);
                 if (validationResult.Ok)
                 {

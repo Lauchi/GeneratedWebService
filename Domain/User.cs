@@ -36,10 +36,10 @@ namespace Domain.Users
 
         public ValidationResult AddPost(UserAddPostCommand command)
         {
-            if (command.NewPost != command.PostToDelete)
+            if (command.NewPost != null)
             {
                 Posts.Add(command.NewPost);
-                return ValidationResult.OkResult(new List<DomainEventBase>{new UserAddPostEvent(command.NewPost.Id, command.PostToDelete.Id, Id) });
+                return ValidationResult.OkResult(new List<DomainEventBase>{new UserAddPostEvent(command.NewPost.Id, Id) });
             }
             return ValidationResult.ErrorResult(new List<string>{"Can not delete post that should be added"});
         }

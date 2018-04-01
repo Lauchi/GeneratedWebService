@@ -9,8 +9,11 @@
 //------------------------------------------------------------------------------
 
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using Application.Posts;
 using Domain.Posts;
 using GraphQL;
+using GraphQL.DataLoader;
 using GraphQL.Types;
 using Newtonsoft.Json;
 using SqlAdapter;
@@ -40,13 +43,12 @@ namespace HttpAdapter.Users
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] GraphQLQuery query)
         {
-            var schema = new Schema { Query = new UserQuery(_userRepository) };
+            var schema = new UserSchema(_userRepository);
 
             var result = await new DocumentExecuter().ExecuteAsync(_ =>
             {
                 _.Schema = schema;
                 _.Query = query.Query;
-
             }).ConfigureAwait(false);
 
             if (result.Errors?.Count > 0)
@@ -58,6 +60,16 @@ namespace HttpAdapter.Users
         }
     }
 
+    public class UserSchema : Schema
+    {
+        public UserSchema(IUserRepository userRepository)
+        {
+            Query = new UserQuery(userRepository);
+            RegisterType<PostType>();
+            RegisterType<UserType>();
+        }
+    }
+
     public class UserType : ObjectGraphType<User>
     {
         public UserType()
@@ -65,6 +77,18 @@ namespace HttpAdapter.Users
             Field(x => x.IdToString).Description("The Id of the user.");
             Field(x => x.Name, nullable: true).Description("The name of the user.");
             Field(x => x.Age, nullable: true).Description("The age of the user.");
+            Field<ListGraphType<PostType>>(
+                "posts"
+            );
+        }
+    }
+
+    public class PostType : ObjectGraphType<Post>
+    {
+        public PostType()
+        {
+            Field(x => x.Title).Description("The Title of the post.");
+            Field(x => x.Body, nullable: true).Description("The Body of the post.");
         }
     }
 
@@ -81,6 +105,10 @@ namespace HttpAdapter.Users
                 {
                     return userRepository.GetUser(context.GetArgument<Guid>("id"));
                 });
+            Field<ListGraphType<UserType>>(
+                "users",
+                resolve: context => userRepository.GetUsers()
+            );
         }
     }
 

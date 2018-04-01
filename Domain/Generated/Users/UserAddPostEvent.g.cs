@@ -18,18 +18,16 @@ namespace Domain.Users
         
         public Guid PostId { get; private set; }
         
-        public Guid Deleted { get; private set; }
         
         private UserAddPostEvent() : 
                 base(Guid.Empty)
         {
         }
         
-        public UserAddPostEvent(Guid PostId, Guid Deleted, Guid EntityId) : 
+        public UserAddPostEvent(Guid PostId, Guid EntityId) : 
                 base(EntityId)
         {
             this.PostId = PostId;
-            this.Deleted = Deleted;
         }
     }
 }

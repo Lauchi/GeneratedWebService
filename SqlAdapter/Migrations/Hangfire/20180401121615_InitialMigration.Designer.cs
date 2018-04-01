@@ -12,14 +12,14 @@ using System;
 namespace SqlAdapter.Migrations.Hangfire
 {
     [DbContext(typeof(HangfireContext))]
-    [Migration("20180331091437_InitialMigration")]
+    [Migration("20180401121615_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.0.1-rtm-125");
+                .HasAnnotation("ProductVersion", "2.0.2-rtm-10011");
 
             modelBuilder.Entity("Application.EventAndJob", b =>
                 {
