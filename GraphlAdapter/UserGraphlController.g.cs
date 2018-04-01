@@ -32,12 +32,9 @@ namespace HttpAdapter.Users
     {
         private readonly IUserRepository _userRepository;
 
-        public UserCommandHandler Handler { get; private set; }
-        
-        public UserGraphlController(UserCommandHandler Handler, EventStoreContext context, IUserRepository userRepository)
+        public UserGraphlController(EventStoreContext context, IUserRepository userRepository)
         {
             _userRepository = userRepository;
-            this.Handler = Handler;
         }
 
         [HttpPost]
