@@ -32,8 +32,7 @@ namespace Host
             collection.AddTransient<IEventStoreRepository, EventStoreRepository>();
             collection.AddTransient<EventJobRegistration>();
             collection.AddTransient<IHangfireQueue, HangfireQueue>();
-            collection.AddTransient<UserQuery>();
-            collection.AddMvc().AddApplicationPart(typeof(UserController).Assembly).AddApplicationPart(typeof(UserGraphlController).Assembly);
+            collection.AddMvc().AddApplicationPart(typeof(UserController).Assembly);
             collection.AddTransient<IUserRepository, UserRepository>();
             collection.AddTransient<UserCommandHandler>();
             collection.AddTransient<IPostRepository, PostRepository>();

@@ -19,10 +19,12 @@ namespace Application.Users
         
         public Guid NewPostId { get; private set; }
         
+        public Guid PostToDeleteId { get; private set; }
         
         public UserAddPostApiCommand(Guid NewPostId, Guid PostToDeleteId)
         {
             this.NewPostId = NewPostId;
+            this.PostToDeleteId = PostToDeleteId;
         }
     }
 }

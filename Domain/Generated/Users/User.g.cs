@@ -35,7 +35,7 @@ namespace Domain.Users
         public Int32 Age { get; private set; }
         
         public Guid Id { get; private set; }
-
+        
         private User(Guid Id, UserCreateCommand command)
         {
             this.Name = command.Name;
