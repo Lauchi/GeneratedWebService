@@ -71,7 +71,7 @@ namespace HttpAdapter.Users
     {
         public UserType()
         {
-            Field(x => x.IdToString).Description("The Id of the user.");
+            Field(x => x.Id, type: typeof(IdGraphType)).Description("The Id of the user.");
             Field(x => x.Name, nullable: true).Description("The name of the user.");
             Field(x => x.Age, nullable: true).Description("The age of the user.");
             Field<ListGraphType<PostType>>(
