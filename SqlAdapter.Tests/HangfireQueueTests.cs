@@ -10,7 +10,7 @@ using Moq;
 namespace SqlAdapter.Tests
 {
     [TestClass]
-    public class MoqueQueueTests
+    public class HangfireQueueTests
     {
         [TestMethod]
         public async Task AddEvents_OneEventIsNotRegisteredForJob()
