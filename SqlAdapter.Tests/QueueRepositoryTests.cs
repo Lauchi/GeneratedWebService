@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application;
 using Domain.Users;
-using Microsoft.AspNetCore.Antiforgery.Internal;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace SqlAdapter.Tests
@@ -14,8 +13,6 @@ namespace SqlAdapter.Tests
         [TestMethod]
         public async Task AddEvents()
         {
-            _hangfireContext.Database.EnsureCreated();
-
             var queueRepository = new QueueRepository(_hangfireContext);
 
             var eventAndJob = new EventAndJob(new UserUpdateNameEvent("Dude", Guid.NewGuid()), "Job");
@@ -30,8 +27,6 @@ namespace SqlAdapter.Tests
         [TestMethod]
         public async Task RemoveEvents()
         {
-            _hangfireContext.Database.EnsureCreated();
-
             var queueRepository = new QueueRepository(_hangfireContext);
 
             var eventAndJob = new EventAndJob(new UserUpdateNameEvent("Dude", Guid.NewGuid()), "Job");
@@ -46,8 +41,6 @@ namespace SqlAdapter.Tests
         [TestMethod]
         public async Task GetEvents()
         {
-            _hangfireContext.Database.EnsureCreated();
-
             var queueRepository = new QueueRepository(_hangfireContext);
 
             var eventAndJob = new EventAndJob(new UserUpdateNameEvent("Dude", Guid.NewGuid()), "Job");
