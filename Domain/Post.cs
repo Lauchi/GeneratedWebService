@@ -14,5 +14,11 @@ namespace Domain.Posts
             domainEventBases.Add(createEvent);
             return CreationResult<Post>.OkResult(domainEventBases, post);
         }
+
+        public ValidationResult UpdateTitle(PostUpdateTitleCommand command)
+        {
+            Title = command.Title;
+            return ValidationResult.OkResult(new List<DomainEventBase>{new PostUpdateTitleEvent(Title, Id)});
+        }
     }
 }

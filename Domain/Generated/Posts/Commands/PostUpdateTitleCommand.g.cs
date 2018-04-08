@@ -14,29 +14,14 @@ namespace Domain.Posts
     using System.Collections.Generic;
     
     
-    public interface IPost
+    public class PostUpdateTitleCommand
     {
         
-        ValidationResult UpdateTitle(PostUpdateTitleCommand command);
-    }
-    
-    public partial class Post : IPost
-    {
-
         public String Title { get; private set; }
-
-        public String Body { get; private set; }
         
-        public Guid Id { get; private set; }
-        
-        private Post(Guid Id, PostCreateCommand command)
+        public PostUpdateTitleCommand(String Title)
         {
-            this.Title = command.Title;
-            this.Id = Id;
-        }
-        
-        private Post()
-        {
+            this.Title = Title;
         }
     }
 }

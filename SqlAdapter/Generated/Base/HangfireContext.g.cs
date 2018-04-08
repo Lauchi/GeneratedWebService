@@ -30,6 +30,8 @@ namespace SqlAdapter
         
         public DbSet<UserCreateEvent> UserCreateEvents { get; private set; }
         
+        public DbSet<PostUpdateTitleEvent> PostUpdateTitleEvents { get; private set; }
+        
         public DbSet<PostCreateEvent> PostCreateEvents { get; private set; }
         
         public HangfireContext(DbContextOptions<HangfireContext> options) : 

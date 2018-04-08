@@ -8,35 +8,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Domain.Posts
+namespace Application.Posts
 {
     using System;
     using System.Collections.Generic;
     
     
-    public interface IPost
+    public class PostUpdateTitleApiCommand
     {
         
-        ValidationResult UpdateTitle(PostUpdateTitleCommand command);
-    }
-    
-    public partial class Post : IPost
-    {
-
-        public String Title { get; private set; }
-
-        public String Body { get; private set; }
+        public Guid TitleId { get; private set; }
         
-        public Guid Id { get; private set; }
-        
-        private Post(Guid Id, PostCreateCommand command)
+        public PostUpdateTitleApiCommand(Guid TitleId)
         {
-            this.Title = command.Title;
-            this.Id = Id;
-        }
-        
-        private Post()
-        {
+            this.TitleId = TitleId;
         }
     }
 }

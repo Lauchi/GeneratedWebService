@@ -11,32 +11,22 @@
 namespace Domain.Posts
 {
     using System;
-    using System.Collections.Generic;
     
     
-    public interface IPost
+    public class PostUpdateTitleEvent : DomainEventBase
     {
         
-        ValidationResult UpdateTitle(PostUpdateTitleCommand command);
-    }
-    
-    public partial class Post : IPost
-    {
-
         public String Title { get; private set; }
-
-        public String Body { get; private set; }
         
-        public Guid Id { get; private set; }
-        
-        private Post(Guid Id, PostCreateCommand command)
+        private PostUpdateTitleEvent() : 
+                base(Guid.Empty)
         {
-            this.Title = command.Title;
-            this.Id = Id;
         }
         
-        private Post()
+        public PostUpdateTitleEvent(String Title, Guid EntityId) : 
+                base(EntityId)
         {
+            this.Title = Title;
         }
     }
 }
