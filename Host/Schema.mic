@@ -1,0 +1,41 @@
+﻿DomainClass User {
+	Name: String
+	Age: Int32
+    Posts: [Post]
+
+	Create(Name: String, Age: Int32)
+
+	UpdateAge(Age: Int32): {
+		Age: Int32
+	}
+
+	UpdateName(Name: String): {
+		Name: String
+	}
+
+	AddPost(NewPost: @Load Post, PostToDelete: @Load Post): {
+		PostId: Guid
+		Deleted: Guid
+	}
+
+	CheckAgeRequirement on Post.UpdateTitle
+}
+
+DomainClass Post {
+	Title: String
+	Body: String
+
+	Create(Title: String)
+
+	UpdateTitle(Title: String): {
+		Title: String
+	}
+}
+
+SendPasswordMail synchronously on User.Create
+
+SendWelcomeMail asynchronously on User.Create
+
+SendPasswordMail asynchronously on User.Create
+
+SendBirthdayMail asynchronously on User.UpdateAge
