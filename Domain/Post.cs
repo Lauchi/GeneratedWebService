@@ -15,7 +15,7 @@ namespace Domain.Posts
             return CreationResult<Post>.OkResult(domainEventBases, post);
         }
 
-        public ValidationResult UpdateTitle(PostUpdateTitleCommand command)
+        public override ValidationResult UpdateTitle(PostUpdateTitleCommand command)
         {
             Title = command.Title;
             return ValidationResult.OkResult(new List<DomainEventBase>{new PostUpdateTitleEvent(Title, Id)});

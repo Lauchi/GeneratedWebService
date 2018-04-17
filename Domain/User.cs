@@ -17,13 +17,13 @@ namespace Domain.Users
             return CreationResult<User>.ErrorResult(new List<string> {"Name too short"});
         }
 
-        public ValidationResult UpdateAge(UserUpdateAgeCommand command)
+        public override ValidationResult UpdateAge(UserUpdateAgeCommand command)
         {
             Age = command.Age;
             return ValidationResult.OkResult(new List<DomainEventBase> { new UserUpdateAgeEvent(Age, Id) });
         }
 
-        public ValidationResult UpdateName(UserUpdateNameCommand command)
+        public override  ValidationResult UpdateName(UserUpdateNameCommand command)
         {
             var creationResult = Post.Create(new PostCreateCommand("luly"));
             if (command.Name.Length > 4) {
@@ -34,7 +34,7 @@ namespace Domain.Users
 
         }
 
-        public ValidationResult AddPost(UserAddPostCommand command)
+        public override  ValidationResult AddPost(UserAddPostCommand command)
         {
             if (command.NewPost != command.PostToDelete)
             {
