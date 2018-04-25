@@ -35,6 +35,7 @@ namespace Application.Tests
             Assert.AreEqual(12, ((User)((JsonResult)user).Value).Age);
         }
 
+
         [TestMethod]
         public async Task GetByIdMethod_NotFound()
         {

@@ -43,5 +43,10 @@ namespace Domain.Users
             }
             return ValidationResult.ErrorResult(new List<string>{"Can not delete post that should be added"});
         }
+
+        public override ValidationResult CheckAgeRequirement_OnPostUpdateTitle(PostUpdateTitleEvent hookEvent)
+        {
+            return ValidationResult.ErrorResult(new List<string>{"The Method \"CheckAgeRequirement_OnPostUpdateTitle\" in Class \"User\" that is not implemented was called, aborting..."});
+        }
     }
 }
