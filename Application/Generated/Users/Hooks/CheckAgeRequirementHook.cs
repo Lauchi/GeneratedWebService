@@ -32,16 +32,21 @@ namespace Application.Users.Hooks
         
         public Type EventType { get; private set; } = typeof(UserCreateEvent);
         
-        public HookResult ExecuteChildHook(DomainEventBase domainEvent, User parent)
+        public async Task<HookResult> ExecuteChildHook(DomainEventBase domainEvent)
         {
             if (domainEvent is PostUpdateTitleEvent casted)
             {
-                var domainResult = parent.CheckAgeRequirement_OnPostUpdateTitle(casted);
-                if (domainResult.Ok)
+                var users = await Repository.GetUsers();
+                foreach (var user in users)
                 {
-                    return HookResult.OkResult();
+                    var parent = user.Posts.FirstOrDefault(us => us.Id == casted.EntityId);
+                    var domainResult = user.CheckAgeRequirement_OnPostUpdateTitle(casted);
+                    if (domainResult.Ok)
+                    {
+                        return HookResult.OkResult();
+                    }
+                    return HookResult.ErrorResult(domainResult.DomainErrors);
                 }
-                return HookResult.ErrorResult(domainResult.DomainErrors);
             }
             throw new Exception("Event is not in the correct list");
         }
@@ -49,6 +54,6 @@ namespace Application.Users.Hooks
 
     public interface IChildHook
     {
-        HookResult ExecuteChildHook(DomainEventBase domainEvent, User parent);
+        Task<HookResult> ExecuteChildHook(DomainEventBase domainEvent);
     }
 }
