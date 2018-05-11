@@ -54,5 +54,42 @@ namespace SqlAdapter.Tests
 
             Assert.AreEqual(20, user.Age);
         }
+
+        [TestMethod]
+        public async Task GetPostParent()
+        {
+            var userRepository = new UserRepository(_eventStoreContext);
+            var postRepository = new PostRepository(_eventStoreContext);
+
+            var expectedName = "Peter";
+            var post = Post.Create(new PostCreateCommand("testTitle")).CreatedEntity;
+            var post2 = Post.Create(new PostCreateCommand("testTitle2")).CreatedEntity;
+            var user = User.Create(new UserCreateCommand(expectedName, 12)).CreatedEntity;
+            var user2 = User.Create(new UserCreateCommand("otherUser", 14)).CreatedEntity;
+            await postRepository.CreatePost(post);
+            user.Posts.Add(post);
+            user.Posts.Add(post2);
+            await userRepository.CreateUser(user);
+            await userRepository.CreateUser(user2);
+
+            var userFromDb = await userRepository.GetPostParent(post.Id);
+            Assert.AreEqual(expectedName, userFromDb.Name);
+        }
+
+        [TestMethod]
+        public async Task GetPostParent_NoResult()
+        {
+            var userRepository = new UserRepository(_eventStoreContext);
+            var postRepository = new PostRepository(_eventStoreContext);
+
+            var expectedName = "Peter";
+            var post = Post.Create(new PostCreateCommand("testTitle")).CreatedEntity;
+            var user = User.Create(new UserCreateCommand(expectedName, 12)).CreatedEntity;
+            await postRepository.CreatePost(post);
+            await userRepository.CreateUser(user);
+
+            var userFromDb = await userRepository.GetPostParent(post.Id);
+            Assert.IsNull(userFromDb);
+        }
     }
 }

@@ -26,7 +26,7 @@ namespace Application.Users
         Task<User> GetUser(Guid id);
         
         Task<List<User>> GetUsers();
-
-        Task<User> GetPostParent(Guid castedEntityId);
+        
+        Task<User> GetPostParent(Guid childId);
     }
 }
