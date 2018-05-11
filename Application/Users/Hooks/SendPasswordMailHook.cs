@@ -11,21 +11,21 @@
 namespace Application.Users.Hooks
 {
     using System;
+    using System.Threading.Tasks;
     using System.Collections.Generic;
     using Domain.Users;
     using Domain;
-    
-    
+
     public partial class SendPasswordMailHook
     {
         
-        public HookResult Execute(UserCreateEvent domainEvent)
+        public async Task<HookResult> Execute(UserCreateEvent domainEvent)
         {
             if (domainEvent.User.Age > 100) return HookResult.ErrorResult(new List<string>{ "Fehler fuer test"});
             var newUserAge = domainEvent.User.Age + 10;
             var domainEventBases = new List<DomainEventBase>();
             domainEventBases.Add(new UserUpdateAgeEvent(newUserAge, Guid.NewGuid()));
-            return HookResult.OkResult();
+            return await Task.FromResult(HookResult.OkResult());
         }
     }
 }
