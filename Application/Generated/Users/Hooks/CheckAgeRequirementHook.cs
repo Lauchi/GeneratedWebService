@@ -36,17 +36,14 @@ namespace Application.Users.Hooks
         {
             if (domainEvent is PostUpdateTitleEvent casted)
             {
-                var users = await Repository.GetUsers();
-                foreach (var user in users)
+                var user = await Repository.GetPostParent(casted.EntityId);
+                var parent = user.Posts.FirstOrDefault(us => us.Id == casted.EntityId);
+                var domainResult = user.CheckAgeRequirement_OnPostUpdateTitle(casted);
+                if (domainResult.Ok)
                 {
-                    var parent = user.Posts.FirstOrDefault(us => us.Id == casted.EntityId);
-                    var domainResult = user.CheckAgeRequirement_OnPostUpdateTitle(casted);
-                    if (domainResult.Ok)
-                    {
-                        return HookResult.OkResult();
-                    }
-                    return HookResult.ErrorResult(domainResult.DomainErrors);
+                    return HookResult.OkResult();
                 }
+                return HookResult.ErrorResult(domainResult.DomainErrors);
             }
             throw new Exception("Event is not in the correct list");
         }
