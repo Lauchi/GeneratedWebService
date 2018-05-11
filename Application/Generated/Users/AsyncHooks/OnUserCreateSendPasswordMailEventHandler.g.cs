@@ -46,7 +46,7 @@ namespace Application.Users.AsyncHooks
                 var domainEvent = (UserCreateEvent) eventWrapper.DomainEvent;
                 var entity = await UserRepository.GetUser(domainEvent.Id);
                 var newCreateEvent = new UserCreateEvent(entity, domainEvent.EntityId);
-                var hookResult = AsyncHook.Execute(newCreateEvent);
+                var hookResult = await AsyncHook.Execute(newCreateEvent);
                 if (hookResult.Ok)
                 {
                     handledEvents.Add(eventWrapper);

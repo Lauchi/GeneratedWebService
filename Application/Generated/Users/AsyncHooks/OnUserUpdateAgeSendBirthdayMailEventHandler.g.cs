@@ -41,7 +41,7 @@ namespace Application.Users.AsyncHooks
             {
                 var eventWrapper = enumerator.Current;
                 var domainEvent = (UserUpdateAgeEvent) eventWrapper.DomainEvent;
-                var hookResult = AsyncHook.Execute(domainEvent);
+                var hookResult = await AsyncHook.Execute(domainEvent);
                 if (hookResult.Ok)
                 {
                     handledEvents.Add(eventWrapper);

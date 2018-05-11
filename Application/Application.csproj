@@ -22,6 +22,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Generated\Users\AsyncHooks\" />
+    <Folder Include="Users\AsyncHooks" />
     <Folder Include="Users\AsyncHooks\" />
     <Folder Include="Users\Hooks" />
   </ItemGroup>

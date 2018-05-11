@@ -12,16 +12,17 @@ namespace Application.Users.AsyncHooks
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Domain.Users;
     
     
     public class OnUserCreateSendPasswordMailAsyncHook
     {
         
-        public HookResult Execute(UserCreateEvent domainEvent)
+        public async Task<HookResult> Execute(UserCreateEvent domainEvent)
         {
-            Console.WriteLine("OnUserCreateSendPasswordMailAsyncHook done");
-            return HookResult.OkResult();
+            Console.WriteLine("OnUserCreateSendPasswordMailAsyncHook called");
+            return await Task.FromResult(HookResult.OkResult());
         }
     }
 }

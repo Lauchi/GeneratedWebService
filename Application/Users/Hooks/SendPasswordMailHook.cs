@@ -19,12 +19,13 @@ namespace Application.Users.Hooks
     public partial class SendPasswordMailHook
     {
         
-        private HookResult Execute(UserCreateEvent domainEvent)
+        public HookResult Execute(UserCreateEvent domainEvent)
         {
             if (domainEvent.User.Age > 100) return HookResult.ErrorResult(new List<string>{ "Fehler fuer test"});
             var newUserAge = domainEvent.User.Age + 10;
             var domainEventBases = new List<DomainEventBase>();
             domainEventBases.Add(new UserUpdateAgeEvent(newUserAge, Guid.NewGuid()));
-            return HookResult.OkResult(); }
+            return HookResult.OkResult();
+        }
     }
 }

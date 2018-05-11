@@ -12,16 +12,17 @@ namespace Application.Users.AsyncHooks
 {
     using System;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Domain.Users;
     
     
     public class OnUserUpdateAgeSendBirthdayMailAsyncHook
     {
         
-        public HookResult Execute(UserUpdateAgeEvent domainEvent)
+        public async Task<HookResult> Execute(UserUpdateAgeEvent domainEvent)
         {
-            Console.WriteLine("OnUserUpdateAgeSendBirthdayMailAsyncHook done");
-            return HookResult.OkResult();
+            Console.WriteLine("Called OnUserUpdateAgeSendBirthdayMailAsyncHook");
+            return await Task.FromResult(HookResult.OkResult());
         }
     }
 }
