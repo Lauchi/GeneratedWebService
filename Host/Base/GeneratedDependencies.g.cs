@@ -39,6 +39,7 @@ namespace Host
             collection.AddTransient<IPostRepository, PostRepository>();
             collection.AddTransient<PostCommandHandler>();
             collection.AddTransient<SendPasswordMailHook>();
+            collection.AddTransient<CheckAgeRequirementHook>();
         }
     }
 }

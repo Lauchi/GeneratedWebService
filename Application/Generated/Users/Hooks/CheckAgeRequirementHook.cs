@@ -21,18 +21,20 @@ namespace Application.Users.Hooks
     using Domain;
     
     
-    public partial class CheckAgeRequirementHook : IChildHook
+    public partial class CheckAgeRequirementHook : IDomainHook
     {
+        private readonly IEventStore _eventStore;
         public IUserRepository Repository { get; }
 
-        CheckAgeRequirementHook(IUserRepository repository)
+        public CheckAgeRequirementHook(IUserRepository repository, IEventStore eventStore)
         {
+            _eventStore = eventStore;
             Repository = repository;
         }
         
-        public Type EventType { get; private set; } = typeof(UserCreateEvent);
-        
-        public async Task<HookResult> ExecuteChildHook(DomainEventBase domainEvent)
+        public Type EventType { get; private set; } = typeof(PostUpdateTitleEvent);
+
+        public async Task<HookResult> ExecuteSavely(DomainEventBase domainEvent)
         {
             if (domainEvent is PostUpdateTitleEvent casted)
             {
@@ -40,16 +42,13 @@ namespace Application.Users.Hooks
                 var domainResult = user.CheckAgeRequirement_OnPostUpdateTitle(casted);
                 if (domainResult.Ok)
                 {
+                    Repository.UpdateUser(user);
+                    _eventStore.AppendAll(domainResult.DomainEvents);
                     return HookResult.OkResult();
                 }
                 return HookResult.ErrorResult(domainResult.DomainErrors);
             }
             throw new Exception("Event is not in the correct list");
         }
-    }
-
-    public interface IChildHook
-    {
-        Task<HookResult> ExecuteChildHook(DomainEventBase domainEvent);
     }
 }
