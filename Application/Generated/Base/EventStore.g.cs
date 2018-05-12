@@ -33,6 +33,7 @@ namespace Application
         
         public async Task<HookResult> AppendAll(List<DomainEventBase> domainEvents)
         {
+            var domainEventsFromHooks = new List<DomainEventBase>();
             var enumerator = domainEvents.GetEnumerator();
             for (
             ; enumerator.MoveNext(); 
@@ -51,9 +52,11 @@ namespace Application
                     {
                         return validationResult;
                     }
+                    domainEventsFromHooks.AddRange(validationResult.DomainEvents);
                 }
             }
             await EventStoreRepository.AddEvents(domainEvents);
+            await EventStoreRepository.AddEvents(domainEventsFromHooks);
             return HookResult.OkResult();
         }
     }

@@ -8,6 +8,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.Collections.ObjectModel;
+using Domain;
+
 namespace Application
 {
     using System;
@@ -20,21 +23,29 @@ namespace Application
         public Boolean Ok { get; private set; }
         
         public List<string> Errors { get; private set; }
-        
-        private HookResult(Boolean Ok, List<string> Errors)
+
+        public ICollection<DomainEventBase> DomainEvents { get; }
+
+        private HookResult(Boolean Ok, List<string> Errors, ICollection<DomainEventBase> domainEvents)
         {
             this.Ok = Ok;
             this.Errors = Errors;
+            this.DomainEvents = domainEvents;
         }
         
         public static HookResult OkResult()
         {
-            return new HookResult(true, new List<string>());
+            return new HookResult(true, new List<string>(), new Collection<DomainEventBase>());
+        }
+
+        public static HookResult OkResult(ICollection<DomainEventBase> domainEvents)
+        {
+            return new HookResult(true, new List<string>(), domainEvents);
         }
         
         public static HookResult ErrorResult(List<string> Errors)
         {
-            return new HookResult(false, Errors);
+            return new HookResult(false, Errors, new Collection<DomainEventBase>());
         }
     }
 }

@@ -23,12 +23,10 @@ namespace Application.Users.Hooks
     
     public partial class CheckAgeRequirementHook : IDomainHook
     {
-        private readonly IEventStore _eventStore;
         public IUserRepository Repository { get; }
 
-        public CheckAgeRequirementHook(IUserRepository repository, IEventStore eventStore)
+        public CheckAgeRequirementHook(IUserRepository repository)
         {
-            _eventStore = eventStore;
             Repository = repository;
         }
         
@@ -43,7 +41,6 @@ namespace Application.Users.Hooks
                 if (domainResult.Ok)
                 {
                     Repository.UpdateUser(user);
-                    _eventStore.AppendAll(domainResult.DomainEvents);
                     return HookResult.OkResult();
                 }
                 return HookResult.ErrorResult(domainResult.DomainErrors);
