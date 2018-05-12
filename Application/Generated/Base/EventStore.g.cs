@@ -25,11 +25,10 @@ namespace Application
         
         public List<IDomainHook> DomainHooks { get; private set; } = new List<IDomainHook>();
         
-        public EventStore(IEventStoreRepository EventStoreRepository, SendPasswordMailHook SendPasswordMailHook, CheckAgeRequirementHook AgeRequirementHook)
+        public EventStore(IEventStoreRepository EventStoreRepository, IEnumerable<IDomainHook> hooks)
         {
             this.EventStoreRepository = EventStoreRepository;
-            DomainHooks.Add(SendPasswordMailHook);
-            DomainHooks.Add(AgeRequirementHook);
+            DomainHooks.AddRange(hooks);
         }
         
         public async Task<HookResult> AppendAll(List<DomainEventBase> domainEvents)

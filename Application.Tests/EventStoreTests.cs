@@ -17,7 +17,7 @@ namespace Application.Tests
         {
             var eventRepo = new Mock<IEventStoreRepository>();
             eventRepo.Setup(repo => repo.AddEvents(It.IsAny<List<DomainEventBase>>())).Returns(Task.FromResult(true));
-            var eventStore = new EventStore(eventRepo.Object, new SendPasswordMailHook(), new CheckAgeRequirementHook(null));
+            var eventStore = new EventStore(eventRepo.Object, new List<IDomainHook> {new SendPasswordMailHook()});
 
             var hookResult = await eventStore.AppendAll(new List<DomainEventBase>
             {
@@ -32,7 +32,7 @@ namespace Application.Tests
         {
             var eventRepo = new Mock<IEventStoreRepository>();
             eventRepo.Setup(repo => repo.AddEvents(It.IsAny<List<DomainEventBase>>())).Returns(Task.FromResult(true));
-            var eventStore = new EventStore(eventRepo.Object, new SendPasswordMailHook(), new CheckAgeRequirementHook(null));
+            var eventStore = new EventStore(eventRepo.Object, new List<IDomainHook> {new SendPasswordMailHook()});
 
             var hookResult = await eventStore.AppendAll(new List<DomainEventBase>
             {
