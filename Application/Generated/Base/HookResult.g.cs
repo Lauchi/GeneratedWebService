@@ -8,13 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.Collections.ObjectModel;
-using Domain;
-
 namespace Application
 {
     using System;
     using System.Collections.Generic;
+    using Domain;
     
     
     public class HookResult
@@ -22,30 +20,30 @@ namespace Application
         
         public Boolean Ok { get; private set; }
         
+        public List<DomainEventBase> DomainEvents { get; private set; }
+        
         public List<string> Errors { get; private set; }
-
-        public ICollection<DomainEventBase> DomainEvents { get; }
-
-        private HookResult(Boolean Ok, List<string> Errors, ICollection<DomainEventBase> domainEvents)
+        
+        private HookResult(Boolean Ok, List<DomainEventBase> DomainEvents, List<string> Errors)
         {
             this.Ok = Ok;
+            this.DomainEvents = DomainEvents;
             this.Errors = Errors;
-            this.DomainEvents = domainEvents;
         }
         
         public static HookResult OkResult()
         {
-            return new HookResult(true, new List<string>(), new Collection<DomainEventBase>());
+            return new HookResult(true, new List<DomainEventBase>(), new List<string>());
         }
-
-        public static HookResult OkResult(ICollection<DomainEventBase> domainEvents)
+        
+        public static HookResult OkResult(List<DomainEventBase> DomainEvents)
         {
-            return new HookResult(true, new List<string>(), domainEvents);
+            return new HookResult(true, DomainEvents, new List<string>());
         }
         
         public static HookResult ErrorResult(List<string> Errors)
         {
-            return new HookResult(false, Errors, new Collection<DomainEventBase>());
+            return new HookResult(false, new List<DomainEventBase>(), Errors);
         }
     }
 }
