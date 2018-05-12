@@ -15,7 +15,6 @@ namespace Application
     using System.Threading.Tasks;
     using System.Collections.Generic;
     using System.Linq;
-    using Application.Users.Hooks;
     
     
     public class EventStore : IEventStore
@@ -23,12 +22,12 @@ namespace Application
         
         public IEventStoreRepository EventStoreRepository { get; }
         
-        public List<IDomainHook> DomainHooks { get; private set; } = new List<IDomainHook>();
+        public IEnumerable<IDomainHook> DomainHooks { get; }
         
-        public EventStore(IEventStoreRepository EventStoreRepository, IEnumerable<IDomainHook> hooks)
+        public EventStore(IEventStoreRepository EventStoreRepository, IEnumerable<IDomainHook> DomainHooks)
         {
             this.EventStoreRepository = EventStoreRepository;
-            DomainHooks.AddRange(hooks);
+            this.DomainHooks = DomainHooks;
         }
         
         public async Task<HookResult> AppendAll(List<DomainEventBase> domainEvents)
