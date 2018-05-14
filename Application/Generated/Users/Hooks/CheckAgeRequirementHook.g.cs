@@ -8,42 +8,38 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Transactions;
-using Domain.Posts;
-
 namespace Application.Users.Hooks
 {
     using System;
-    using Domain.Users;
+    using System.Threading.Tasks;
     using Domain;
+    using Application.Posts;
+    using Domain.Posts;
     
     
     public partial class CheckAgeRequirementHook : IDomainHook
     {
-        public IUserRepository Repository { get; }
-
-        public CheckAgeRequirementHook(IUserRepository repository)
-        {
-            Repository = repository;
-        }
+        
+        public IUserRepository UserRepository { get; private set; }
         
         public Type EventType { get; private set; } = typeof(PostUpdateTitleEvent);
-
+        
+        public CheckAgeRequirementHook(IUserRepository UserRepository)
+        {
+            this.UserRepository = UserRepository;
+        }
+        
         public async Task<HookResult> ExecuteSavely(DomainEventBase domainEvent)
         {
-            if (domainEvent is PostUpdateTitleEvent casted)
+            if (domainEvent is PostUpdateTitleEvent parsedEvent)
             {
-                var user = await Repository.GetPostParent(casted.EntityId);
-                var domainResult = user.CheckAgeRequirement_OnPostUpdateTitle(casted);
+                var parent = await UserRepository.GetPostParent(parsedEvent.EntityId);
+                var domainResult = parent.CheckAgeRequirement_OnPostUpdateTitle(parsedEvent);
                 if (domainResult.Ok)
                 {
-                    Repository.UpdateUser(user);
-                    return HookResult.OkResult();
+                    UserRepository.UpdateUser(parent);
+                    return HookResult.OkResult(domainResult.DomainEvents);
                 }
-                return HookResult.ErrorResult(domainResult.DomainErrors);
             }
             throw new Exception("Event is not in the correct list");
         }
