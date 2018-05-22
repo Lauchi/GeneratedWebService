@@ -52,6 +52,12 @@ namespace Domain.Users
             return ValidationResult.ErrorResult(new List<string> {"Can not delete post that should be added"});
         }
 
+        public override ValidationResult AddPinnedPost(UserAddPinnedPostCommand command)
+        {
+            PinnedPost = command.NewPost;
+            return ValidationResult.OkResult(new List<DomainEventBase> { new UserAddPinnedPostEvent(PinnedPost.Id, Id)});
+        }
+
         public override ValidationResult CheckAgeRequirement_OnPostUpdateTitle(PostUpdateTitleEvent hookEvent)
         {
             if (hookEvent.Title.Contains("Sex") && Age < 18)
