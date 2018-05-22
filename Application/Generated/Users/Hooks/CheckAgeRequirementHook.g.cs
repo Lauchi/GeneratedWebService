@@ -33,8 +33,8 @@ namespace Application.Users.Hooks
         {
             if (domainEvent is PostUpdateTitleEvent parsedEvent)
             {
-                var parent = await UserRepository.GetPostParent(parsedEvent.EntityId);
-                var domainResult = parent.CheckAgeRequirement_OnPostUpdateTitle(parsedEvent);
+                var parent = await UserRepository.GetMyPostsParent(parsedEvent.EntityId);
+                var domainResult = parent.CheckAgeRequirement_OnMyPostsUpdateTitle(parsedEvent);
                 if (domainResult.Ok)
                 {
                     UserRepository.UpdateUser(parent);

@@ -67,12 +67,12 @@ namespace SqlAdapter.Tests
             var user = User.Create(new UserCreateCommand(expectedName, 12)).CreatedEntity;
             var user2 = User.Create(new UserCreateCommand("otherUser", 14)).CreatedEntity;
             await postRepository.CreatePost(post);
-            user.Posts.Add(post);
-            user.Posts.Add(post2);
+            user.MyPosts.Add(post);
+            user.MyPosts.Add(post2);
             await userRepository.CreateUser(user);
             await userRepository.CreateUser(user2);
 
-            var userFromDb = await userRepository.GetPostParent(post.Id);
+            var userFromDb = await userRepository.GetMyPostsParent(post.Id);
             Assert.AreEqual(expectedName, userFromDb.Name);
         }
 
@@ -88,7 +88,7 @@ namespace SqlAdapter.Tests
             await postRepository.CreatePost(post);
             await userRepository.CreateUser(user);
 
-            var userFromDb = await userRepository.GetPostParent(post.Id);
+            var userFromDb = await userRepository.GetMyPostsParent(post.Id);
             Assert.IsNull(userFromDb);
         }
     }
