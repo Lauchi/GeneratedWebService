@@ -13,7 +13,7 @@ namespace Application.Users.Hooks
     using System;
     using System.Threading.Tasks;
     using Domain;
-    using Application.Posts;
+    using Application.Users;
     using Domain.Posts;
     
     
@@ -37,7 +37,7 @@ namespace Application.Users.Hooks
                 var domainResult = parent.CheckAgeRequirement_OnMyPostsUpdateTitle(parsedEvent);
                 if (domainResult.Ok)
                 {
-                    UserRepository.UpdateUser(parent);
+                    await UserRepository.UpdateUser(parent);
                     return HookResult.OkResult(domainResult.DomainEvents);
                 }
             }

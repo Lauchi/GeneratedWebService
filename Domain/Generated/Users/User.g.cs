@@ -47,6 +47,6 @@ namespace Domain.Users
         
         public abstract ValidationResult AddPost(UserAddPostCommand command);
         
-        public abstract ValidationResult CheckAgeRequirement_OnMyPostsUpdateTitle(PostUpdateTitleEvent MyPostsUpdateTitleEvent);
+        public abstract ValidationResult CheckAgeRequirement_OnMyPostsUpdateTitle(PostUpdateTitleEvent hookEvent);
     }
 }
