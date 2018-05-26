@@ -54,6 +54,11 @@ namespace Domain.Users
 
         public override ValidationResult CheckAgeRequirement_OnMyPostsUpdateTitle(PostUpdateTitleEvent hookEvent)
         {
+            return CheckAgeRequirementOnMyPostsUpdateTitle(hookEvent);
+        }
+
+        private ValidationResult CheckAgeRequirementOnMyPostsUpdateTitle(PostUpdateTitleEvent hookEvent)
+        {
             if (hookEvent.Title.Contains("Sex") && Age < 18)
             {
                 return ValidationResult.ErrorResult(new List<string>
@@ -63,6 +68,11 @@ namespace Domain.Users
             }
 
             return ValidationResult.OkResult(new List<DomainEventBase>());
+        }
+
+        public override ValidationResult CheckAgeRequirement_OnPinnedPostUpdateTitle(PostUpdateTitleEvent hookEvent)
+        {
+            return CheckAgeRequirement_OnMyPostsUpdateTitle(hookEvent);
         }
     }
 }
