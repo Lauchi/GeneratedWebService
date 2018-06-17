@@ -12,7 +12,6 @@ namespace SqlAdapter
 {
     using System;
     using Domain;
-    using Domain.Queries;    
     using Microsoft.EntityFrameworkCore;
     using Domain.Users;
     using Domain.Posts;
@@ -38,9 +37,7 @@ namespace SqlAdapter
         public DbSet<PostUpdateTitleEvent> PostUpdateTitleEvents { get; private set; }
         
         public DbSet<PostCreateEvent> PostCreateEvents { get; private set; }
-
-        public DbSet<UserWithPostNumberQuery> UserWithPostNumberQuerys { get; private set; }
-
+        
         public EventStoreContext(DbContextOptions<EventStoreContext> options) : 
                 base(options)
         {

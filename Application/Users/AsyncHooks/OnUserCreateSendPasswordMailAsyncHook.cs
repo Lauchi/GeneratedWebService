@@ -21,8 +21,9 @@ namespace Application.Users.AsyncHooks
         
         public async Task<HookResult> Execute(UserCreateEvent domainEvent)
         {
-            Console.WriteLine("OnUserCreateSendPasswordMailAsyncHook called");
-            return await Task.FromResult(HookResult.OkResult());
+            // TODO: Implement this method;
+            Console.WriteLine("ERROR: The generated Async Domain Hook Method OnUserCreateSendPasswordMailAsyncHook that is not implemented was called, aborting...");
+            return await Task.FromResult(HookResult.ErrorResult(new List<string>()));
         }
     }
 }

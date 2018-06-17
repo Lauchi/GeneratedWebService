@@ -25,7 +25,6 @@ namespace SqlAdapter
             EventJobs = new List<EventTuple>();
             EventJobs.Add(new EventTuple(typeof(UserCreateEvent).ToString(), "SendWelcomeMail"));
             EventJobs.Add(new EventTuple(typeof(UserCreateEvent).ToString(), "SendPasswordMail"));
-            EventJobs.Add(new EventTuple(typeof(UserCreateEvent).ToString(), "CreateUserQuery"));
             EventJobs.Add(new EventTuple(typeof(UserUpdateAgeEvent).ToString(), "SendBirthdayMail"));
         }
     }

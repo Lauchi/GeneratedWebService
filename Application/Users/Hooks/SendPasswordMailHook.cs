@@ -21,7 +21,7 @@ namespace Application.Users.Hooks
         
         public async Task<HookResult> Execute(UserCreateEvent domainEvent)
         {
-            if (domainEvent.User.Age > 100) return HookResult.ErrorResult(new List<string>{ "Fehler fuer test"});
+            if (domainEvent.User.Age > 100) return HookResult.ErrorResult(new List<string>{ "User must not be older than 100"});
             var newUserAge = domainEvent.User.Age + 10;
             var domainEventBases = new List<DomainEventBase>();
             domainEventBases.Add(new UserUpdateAgeEvent(newUserAge, Guid.NewGuid()));
