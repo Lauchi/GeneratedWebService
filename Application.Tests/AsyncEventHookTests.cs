@@ -13,6 +13,7 @@ namespace Application.Tests
     public class AsyncEventHookTests
     {
         [TestMethod]
+        [Ignore]
         public async Task CreatMethod_HappyPath()
         {
             var userRepo = new Mock<IUserRepository>();
